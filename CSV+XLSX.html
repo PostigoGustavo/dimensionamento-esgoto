@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Primeira Página</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        h1 {
+            color: #007BFF;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        input[type="text"], input[type="number"], input[type="file"] {
+            width: 150px;
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="text"]:disabled, input[type="number"]:disabled {
+            background-color: #e9ecef;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora Personalizada</h1>
+    <p>Entre dois números e obtenha o resultado da raiz quadrada do primeiro multiplicado pelo segundo.</p>
+
+    <label for="numero1">Número 1:</label>
+    <input type="text" id="numero1" placeholder="Digite o primeiro número"><br>
+
+    <label for="numero2">Número 2:</label>
+    <input type="text" id="numero2" placeholder="Digite o segundo número"><br>
+
+    <button onclick="calcular()">Calcular</button><br>
+
+    <label for="resultado">Resultado:</label>
+    <input type="text" id="resultado" disabled><br>
+
+    <h2>Tabela de Trechos</h2>
+    <input type="file" id="inputCSV" accept=".csv" onchange="lerCSV(event)"><br>
+    <button onclick="salvarComoXLSX()">Salvar como XLSX</button>
+
+    <table id="tabelaTrechos">
+        <thead>
+            <tr>
+                <th>Trecho</th>
+                <th>Extensão (m)</th>
+                <th>Cota de Montante (m)</th>
+                <th>Cota de Jusante (m)</th>
+                <th>Declividade</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Linhas serão inseridas aqui pelo JavaScript -->
+        </tbody>
+    </table>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script>
+        function calcular() {
+            var numero1 = parseFloat(document.getElementById('numero1').value);
+            var numero2 = parseFloat(document.getElementById('numero2').value);
+            var resultado = Math.sqrt(numero1) * numero2;
+            document.getElementById('resultado').value = resultado;
+        }
+
+        function calcularDeclividade(linha) {
+            var extensao = parseFloat(document.getElementById('extensao' + linha).value);
+            var cotaMontante = parseFloat(document.getElementById('cotaMontante' + linha).value);
+            var cotaJusante = parseFloat(document.getElementById('cotaJusante' + linha).value);
+
+            if (!isNaN(extensao) && !isNaN(cotaMontante) && !isNaN(cotaJusante) && extensao !== 0) {
+                var declividade = (cotaMontante - cotaJusante) / extensao;
+                document.getElementById('declividade' + linha).value = declividade.toFixed(4);
+            } else {
+                document.getElementById('declividade' + linha).value = '';
+            }
+        }
+
+        function lerCSV(event) {
+            var input = event.target;
+            var reader = new FileReader();
+            reader.onload = function() {
+                var data = reader.result;
+                var linhas = data.split('\n');
+                var tabela = document.getElementById('tabelaTrechos').getElementsByTagName('tbody')[0];
+                tabela.innerHTML = ''; // Limpa a tabela antes de adicionar novos dados
+                for (var i = 1; i < linhas.length; i++) { // Começa de 1 para pular o cabeçalho
+                    var cols = linhas[i].split(',');
+                    if (cols.length === 4) {
+                        var novaLinha = tabela.insertRow();
+                        for (var j = 0; j < 4; j++) {
+                            var novaCelula = novaLinha.insertCell();
+                            var input = document.createElement('input');
+                            input.type = (j === 0) ? 'text' : 'number';
+                            input.value = cols[j];
+                            input.id = (j === 0 ? 'trecho' : j === 1 ? 'extensao' : j === 2 ? 'cotaMontante' : j === 3 ? 'cotaJusante' : 'declividade') + i;
+                            if (j !== 0) {
+                                input.oninput = function() { calcularDeclividade(i); };
+                            }
+                            novaCelula.appendChild(input);
+                        }
+                        var novaCelulaDeclividade = novaLinha.insertCell();
+                        var inputDeclividade = document.createElement('input');
+                        inputDeclividade.type = 'text';
+                        inputDeclividade.disabled = true;
+                        inputDeclividade.id = 'declividade' + i;
+                        novaCelulaDeclividade.appendChild(inputDeclividade);
+                        calcularDeclividade(i);
+                    }
+                }
+            };
+            reader.readAsText(input.files[0]);
+        }
+
+        function salvarComoXLSX() {
+            var tabela = document.getElementById('tabelaTrechos').getElementsByTagName('tbody')[0];
+            var dados = [];
+            var linhas = tabela.getElementsByTagName('tr');
+
+            dados.push(["Trecho", "Extensão", "Cota de Montante", "Cota de Jusante", "Declividade"]);
+            for (var i = 0; i < linhas.length; i++) {
+                var colunas = linhas[i].getElementsByTagName('input');
+                var linha = [];
+                for (var j = 0; j < colunas.length; j++) {
+                    linha.push(colunas[j].value);
+                }
+                dados.push(linha);
+            }
+
+            var ws = XLSX.utils.aoa_to_sheet(dados);
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Trechos");
+            XLSX.writeFile(wb, "dados.xlsx");
+        }
+    </script>
+</body>
+</html>

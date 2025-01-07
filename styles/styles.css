@@ -1,0 +1,303 @@
+body {
+  --azul-logo: #1578b6;
+  --azul-escuro: darkblue;
+  font-family: 'Barlow', sans-serif;
+  
+  overflow-x: hidden;
+}
+
+.cabecalho{
+  height: 5rem;
+  
+}
+
+
+
+.logo{
+  height: 5rem;
+  justify-content:space-around;
+}
+
+.cabecalho_conteudo{
+  margin-right: 0px;
+  
+}
+
+
+
+
+.footer{
+  background-color: var(--azul-logo);
+  height: 6rem;
+}
+
+[data-bs-theme="dark"]{
+  color: white;
+  .nav-link, .card-body, .offcanvas, .accordion, .btn{
+    --bs-nav-link-color: white;
+    --bs-card-color: white;
+    --bs-offcanvas-color: white;
+    --bs-body-color: white;
+    
+  }
+
+  .form-select{
+    color: white;
+  }
+
+}
+
+
+.titulo{
+  font-size: 3rem;
+  color: var(--azul-logo);
+  justify-content: center;
+  text-align: center;
+  margin-left: 15rem;
+}
+
+.texto{
+  margin: auto, 2, auto, 2;
+}
+
+.reservatorio {
+  position: relative;
+  width: 4.375rem; /* largura do reservatório */
+  height: 6.25rem; /* altura do reservatório */
+  border: 0.125rem solid #666; /* borda do reservatório */
+  border-radius: 0.625rem; /* borda arredondada */
+  background: linear-gradient(to bottom, #ddd, #999); /* gradiente de fundo para efeito 3D */
+  box-shadow: 0 0.3125rem 0.9375rem rgba(0, 0, 0, 0.5), inset 0 0 0.625rem rgba(255, 255, 255, 0.8); /* sombras para efeito 3D */
+}
+
+.agua {
+  position: absolute;
+  bottom: 0;
+  background-color: #00f; /* cor da água */
+  width: 100%; /* A água ocupa toda a largura do reservatório */
+  transition: height 0.5s ease; /* Animação suave para alterações na altura */
+  border-radius: inherit; /* herda a borda arredondada do reservatório */
+}
+
+.textoPorcentagem {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff; /* cor do texto */
+  font-size: 1.5rem; /* tamanho da fonte */
+  text-shadow: 0.0625rem 0.0625rem 0.0625rem rgba(0, 0, 0, 0.5); /* sombra do texto para destacar */
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.custom-file-upload { 
+  display: inline-block; 
+  padding: 6px 12px; 
+  cursor: pointer; 
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+  background-color: #f8f9fa;
+ } 
+
+ .custom-file-upload i {
+   margin-right: 8px; 
+  } 
+  
+  .custom-file-upload input[type="file"] { 
+    display: none; 
+  }
+
+h1 {
+  color: #007BFF;
+  margin-right: 129px;
+}
+
+main {
+  padding: 60px 10px 40px;
+  /* Ajuste o padding superior e inferior para espaço do cabeçalho e rodapé */
+  margin-bottom: 120px;
+}
+
+.caixote{
+  display:flexbox
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"] {
+  width: 150px;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+input[type="text"]:disabled,
+input[type="number"]:disabled {
+  background-color: #e9ecef;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  
+}
+
+
+th,
+td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+th {
+  background-color: #007BFF;
+  color: white;
+}
+
+.wrapper { 
+  min-height: 100%; 
+  display: flex; 
+  flex-direction: column;}
+
+
+
+/* Botao Noturno */
+/* checkbox settings 👇 */
+
+.switch {
+  /* global */
+  --total_transition_duration: .3s;
+  /* switch */
+  --slider_width: 2.875em;
+  --slider_height: 1.5em;
+  --slider_light_bg: linear-gradient(90deg, #f32a85 0%, #f19d36 100%);
+  --slider_night_bg: linear-gradient(90deg, #1701a1 0%, #af0693 75%);
+  --slider_offset: calc((var(--slider_height) - var(--circle_diameter)) / 2);
+  --slider_radius: calc(var(--slider_height) / 2);
+  /* circle */
+  --circle_diameter: 1.125em;
+  --circle_rotation: 360deg;
+  /* svg */
+  --svg_width: var(--circle_diameter);
+  --sun-color: #fff;
+  --moon-color: #fff;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider svg {
+  position: absolute;
+  height: auto;
+  color: var(--svg-color);
+  transition: var(--total_transition_duration) ease;
+  width: 100%;
+}
+
+.circle svg.sun {
+  transform: scale(1);
+  color: var(--sun-color);
+}
+
+.circle svg.moon {
+  transform: scale(0);
+  color: var(--moon-color);
+  width: calc(100% - 2px);
+}
+
+.slider {
+  display: inline-block;
+  width: var(--slider_width);
+  height: var(--slider_height);
+  border-radius: var(--slider_radius);
+  position: relative;
+  cursor: pointer;
+  transition: var(--total_transition_duration) ease;
+  overflow: hidden;
+}
+
+.slider::before,
+.slider::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transition: var(--total_transition_duration) ease;
+}
+
+/* ::before and ::after backgrounds are needed for smooth 
+transition of gradients otherwise there is no way :\ */
+.slider::before {
+  opacity: 0;
+  background: var(--slider_night_bg);
+}
+
+.slider::after {
+  opacity: 1;
+  background: var(--slider_light_bg);
+}
+
+/* ------------ */
+
+.circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--circle_diameter);
+  height: var(--circle_diameter);
+  position: absolute;
+  top: var(--slider_offset);
+  left: var(--slider_offset);
+  transition: var(--total_transition_duration) ease;
+  z-index: 10;
+}
+
+/* actions */
+
+.switch input:checked+.slider::before {
+  opacity: 1;
+}
+
+.switch input:checked+.slider::after {
+  opacity: 0;
+}
+
+.switch input:active+.slider .circle {
+  transform: scale(0.9);
+}
+
+.switch input:checked+.slider .circle {
+  left: calc(100% - var(--circle_diameter) - var(--slider_offset));
+}
+
+.switch input:checked+.slider .sun {
+  transform: scale(0) rotate(var(--circle_rotation));
+}
+
+.switch input:checked+.slider .moon {
+  transform: scale(1) rotate(var(--circle_rotation));
+}
+/* Fim Botao Noturno */
