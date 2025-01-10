@@ -109,7 +109,7 @@
                                 <input type="text" id="P.V.Montante1" placeholder="M" onkeydown="moveFocus(event)"> 
                                 <input type="text" id="P.V.Jusante1" placeholder="J" onkeydown="moveFocus(event)"> 
                             </td> 
-                            <td><input type="number" id="Extensão (m)1" oninput="calculaContribuicaoTrecho()" onblur="calculaDeclividade()" onchange="calcularInfiltracao(event)" onkeydown="moveFocus(event)"></td> 
+                            <td><input type="number" id="Extensão (m)1" oninput="extensaoFuncoes()" onkeydown="moveFocus(event)"></td> 
                             <td> 
                                 <input type="number" id="VazaoMInicial1" oninput="calculaVazao()" placeholder="inicial" onkeydown="moveFocus(event)"> 
                                 <input type="number" id="VazaoMFinal1" oninput="calculaVazao()" placeholder="final" onkeydown="moveFocus(event)"> 
@@ -128,16 +128,16 @@
                                 <input type="number" id="VazaoJFinal1" oninput="calculaVazao()" placeholder="final" disabled=true onkeydown="moveFocus(event)">
                             </td> 
                             <td>
-                                <input type="number" id="VazaoAInicial1" oninput="calculaVazao()" placeholder="inicial" disabled=true onkeydown="moveFocus(event)">
-                                <input type="number" id="VazaoAFinal1" oninput="calculaDeclMin()" onchange="calculaDiametros()" placeholder="final" disabled=true onkeydown="moveFocus(event)">
+                                <input type="number" id="VazaoAInicial1" oninput="vazaoAInicialFuncoes()" placeholder="inicial" disabled=true onkeydown="moveFocus(event)">
+                                <input type="number" id="VazaoAFinal1" oninput="vazaoAFinalFuncoes()" placeholder="final" disabled=true onkeydown="moveFocus(event)">
                             </td> 
                             <td> 
                                 <input type="number" id="CotaTerMontante1" oninput="calculaProfundidade()" placeholder="Montante" onkeydown="moveFocus(event)"> 
                                 <input type="number" id="CotaTerJusante1" oninput="calculaProfundidade()" placeholder="Jusante" onkeydown="moveFocus(event)"> 
                             </td> 
                             <td> 
-                                <input type="number" id="CotaColMontante1" onchange="calculaDeclividade()" oninput="calculaProfundidade()" placeholder="Montante" onkeydown="moveFocus(event)"> 
-                                <input type="number" id="CotaColJusante1" onchange="calculaDeclividade()" oninput="calculaProfundidade()" placeholder="Jusante" onkeydown="moveFocus(event)"> 
+                                <input type="number" id="CotaColMontante1"  oninput="cotaColFuncoes()" placeholder="Montante" onkeydown="moveFocus(event)"> 
+                                <input type="number" id="CotaColJusante1"  oninput="cotaColFuncoes()" placeholder="Jusante" onkeydown="moveFocus(event)"> 
                             </td> 
                             <td> 
                                 <input type="number" id="ProfColMontante1" oninput="calculaProfundidade()" disabled=true  placeholder="Montante" onkeydown="moveFocus(event)"> 
@@ -145,7 +145,7 @@
                             </td>
                             <td><input type="number" id="Decl. Min.1" disabled=true onkeydown="moveFocus(event)"></td> 
                             
-                            <td><input type="number" id="Decl. Col1" disabled=true  oninput="calculaDiametros()" onkeydown="moveFocus(event)"></td> 
+                            <td><input type="number" id="Decl. Col1" disabled=true  oninput="declivColFuncoes()" onkeydown="moveFocus(event)"></td> 
                             <td><input type="number" id="Diam. Cal.1" disabled=true onkeydown="moveFocus(event)"></td> 
                             <td><input type="number" id="Diam. A1" disabled=true onkeydown="moveFocus(event)"></td> 
                             <td><input type="number" id="Q/Qp1" disabled=true onkeydown="moveFocus(event)"></td> 
@@ -170,7 +170,7 @@
                                 <input type="text" id="P.V.Montante2" placeholder="M" onkeydown="moveFocus(event)"> 
                                 <input type="text" id="P.V.Jusante2" placeholder="J" onkeydown="moveFocus(event)"> 
                             </td> 
-                            <td><input type="number" id="Extensão (m)2" onblur="calculaDeclividade()" oninput="calculaContribuicaoTrecho()" onchange="calcularInfiltracao(event)" onkeydown="moveFocus(event)"></td> 
+                            <td><input type="number" id="Extensão (m)2"  oninput="extensaoFuncoes()" onkeydown="moveFocus(event)"></td> 
                             <td> 
                                 <input type="number" id="VazaoMInicial2" oninput="calculaVazao()" placeholder="inicial" onkeydown="moveFocus(event)"> 
                                 <input type="number" id="VazaoMFinal2" oninput="calculaVazao()" placeholder="final" onkeydown="moveFocus(event)"> 
@@ -190,16 +190,16 @@
                                 <input type="number" id="VazaoJFinal2" oninput="calculaVazao()" disabled=true placeholder="final" onkeydown="moveFocus(event)">
                             </td> 
                             <td>
-                                <input type="number" id="VazaoAInicial2" oninput="calculaVazao()" disabled=true placeholder="inicial" onkeydown="moveFocus(event)">
-                                <input type="number" id="VazaoAFinal2" oninput="calculaVazao()" disabled=true placeholder="final" onkeydown="moveFocus(event)">
+                                <input type="number" id="VazaoAInicial2" oninput="vazaoAInicialFuncoes()" disabled=true placeholder="inicial" onkeydown="moveFocus(event)">
+                                <input type="number" id="VazaoAFinal2" oninput="vazaoAFinalFuncoes()" disabled=true placeholder="final" onkeydown="moveFocus(event)">
                             </td>  
                             <td> 
                                 <input type="number" id="CotaTerMontante2" oninput="calculaProfundidade()" placeholder="Montante" onkeydown="moveFocus(event)"> 
                                 <input type="number" id="CotaTerJusante2" oninput="calculaProfundidade()" placeholder="Jusante" onkeydown="moveFocus(event)"> 
                             </td>
                             <td> 
-                                <input type="number" id="CotaColMontante2" onchange="calculaDeclividade()" oninput="calculaProfundidade()" placeholder="Montante" onkeydown="moveFocus(event)"> 
-                                <input type="number" id="CotaColJusante2" onchange="calculaDeclividade()" oninput="calculaProfundidade()" placeholder="Jusante" onkeydown="moveFocus(event)"> 
+                                <input type="number" id="CotaColMontante2" oninput="cotaColFuncoes()" placeholder="Montante" onkeydown="moveFocus(event)"> 
+                                <input type="number" id="CotaColJusante2" oninput="cotaColFuncoes()" placeholder="Jusante" onkeydown="moveFocus(event)"> 
                             </td> 
                             <td> 
                                 <input type="number" id="ProfColMontante2" oninput="calculaProfundidade()" disabled=true  placeholder="Montante" onkeydown="moveFocus(event)"> 
@@ -207,7 +207,7 @@
                             </td>
                             <td><input type="number" id="Decl. Min.2" disabled=true onkeydown="moveFocus(event)"></td> 
                             
-                            <td><input type="number" id="Decl. Col2" disabled=true onkeydown="moveFocus(event)"></td> 
+                            <td><input type="number" id="Decl. Col2" oninput="declivColFuncoes()" disabled=true onkeydown="moveFocus(event)"></td> 
                             <td><input type="number" id="Diam. Cal.2" disabled=true onkeydown="moveFocus(event)"></td> 
                             <td><input type="number" id="Diam. A2" disabled=true onkeydown="moveFocus(event)"></td> 
                             <td><input type="number" id="Q/Qp2" disabled=true onkeydown="moveFocus(event)"></td> 
@@ -232,7 +232,7 @@
                                 <input type="text" id="P.V.Montante3" placeholder="M" onkeydown="moveFocus(event)"> 
                                 <input type="text" id="P.V.Jusante3" placeholder="J" onkeydown="moveFocus(event)"> 
                             </td> 
-                            <td><input type="number" id="Extensão (m)3" onblur="calculaDeclividade()" oninput="calculaContribuicaoTrecho()" onchange="calcularInfiltracao(event)" onkeydown="moveFocus(event)"></td> 
+                            <td><input type="number" id="Extensão (m)3" oninput="extensaoFuncoes()" onkeydown="moveFocus(event)"></td> 
                             <td> 
                                 <input type="number" id="VazaoMInicial3" oninput="calculaVazao()" onkeydown="moveFocus(event)" placeholder="inicial"> 
                                 <input type="number" id="VazaoMFinal3" oninput="calculaVazao()" onkeydown="moveFocus(event)" placeholder="final"> 
@@ -251,16 +251,16 @@
                                 <input type="number" id="VazaoJFinal3" oninput="calculaVazao()" disabled=true onkeydown="moveFocus(event)" placeholder="final">
                             </td> 
                             <td>
-                                <input type="number" id="VazaoAInicial3" oninput="calculaVazao()" disabled=true onkeydown="moveFocus(event)" placeholder="inicial">
-                                <input type="number" id="VazaoAFinal3" oninput="calculaVazao()" disabled=true onkeydown="moveFocus(event)" placeholder="final">
+                                <input type="number" id="VazaoAInicial3" oninput="vazaoAInicialFuncoes()" disabled=true onkeydown="moveFocus(event)" placeholder="inicial">
+                                <input type="number" id="VazaoAFinal3" oninput="vazaoAFinalFuncoes()" disabled=true onkeydown="moveFocus(event)" placeholder="final">
                             </td>  
                             <td> 
                                 <input type="number" id="CotaTerMontante3" oninput="calculaProfundidade()" placeholder="Montante" onkeydown="moveFocus(event)"> 
                                 <input type="number" id="CotaTerJusante3" oninput="calculaProfundidade()" placeholder="Jusante" onkeydown="moveFocus(event)"> 
                             </td> 
                             <td> 
-                                <input type="number" id="CotaColMontante3" onchange="calculaDeclividade()" oninput="calculaProfundidade()" placeholder="Montante" onkeydown="moveFocus(event)"> 
-                                <input type="number" id="CotaColJusante3" onchange="calculaDeclividade()" oninput="calculaProfundidade()" placeholder="Jusante" onkeydown="moveFocus(event)"> 
+                                <input type="number" id="CotaColMontante3"  oninput="cotaColFuncoes()" placeholder="Montante" onkeydown="moveFocus(event)"> 
+                                <input type="number" id="CotaColJusante3"  oninput="cotaColFuncoes()" placeholder="Jusante" onkeydown="moveFocus(event)"> 
                             </td> 
                             <td> 
                                 <input type="number" id="ProfColMontante3"disabled=true oninput="calculaProfundidade()" placeholder="Montante" onkeydown="moveFocus(event)"> 
@@ -268,7 +268,7 @@
                             </td>
                             <td><input type="number" id="Decl. Min.3" disabled=true onkeydown="moveFocus(event)"></td> 
                             
-                            <td><input type="number" id="Decl. Col3" disabled=true onkeydown="moveFocus(event)"></td> 
+                            <td><input type="number" id="Decl. Col3" disabled=true oninput="declivColFuncoes()" onkeydown="moveFocus(event)"></td> 
                             <td><input type="number" id="Diam. Cal.3" disabled=true onkeydown="moveFocus(event)"></td> 
                             <td><input type="number" id="Diam. A3" disabled=true onkeydown="moveFocus(event)"></td> 
                             <td><input type="number" id="Q/Qp3" disabled=true onkeydown="moveFocus(event)"></td> 
@@ -351,16 +351,14 @@ function addRow() {
             elementMontante.placeholder = header.includes("(m)") ? "Montante" : "M"; 
             elementMontante.id = "CotaColMontante" + rowCount; 
             elementMontante.setAttribute("onkeydown", "moveFocus(event)");
-            elementMontante.setAttribute("oninput" ,"calculaProfundidade()");
-            elementMontante.setAttribute("onchange", "calculaDeclividade()");
+            elementMontante.setAttribute("oninput" ,"cotaColFuncoes()");
             cell.appendChild(elementMontante); 
             var elementJusante = document.createElement("input"); 
             elementJusante.type = "text"; 
             elementJusante.placeholder = header.includes("(m)") ? "Jusante" : "J"; 
             elementJusante.id = "CotaColJusante" + rowCount; 
             elementJusante.setAttribute("onkeydown", "moveFocus(event)");
-            elementJusante.setAttribute("oninput" ,"calculaProfundidade()");
-            elementJusante.setAttribute("onchange", "calculaDeclividade()");
+            elementJusante.setAttribute("oninput" ,"cotaColFuncoes()");
             cell.appendChild(elementJusante); 
         }else if(header === "Prof. Col. (m)"){
             var elementPMontante = document.createElement("input"); 
@@ -435,7 +433,7 @@ function addRow() {
             elementAInicial.id = "VazaoAInicial" + rowCount; 
             elementAInicial.setAttribute("onkeydown", "moveFocus(event)");
             elementAInicial.setAttribute("disabled", true);
-            elementAInicial.setAttribute("oninput", "calculaVazao()");
+            elementAInicial.setAttribute("oninput", "vazaoAInicialFuncoes()");
             cell.appendChild(elementAInicial);
             var elementAFinal = document.createElement("input"); 
             elementAFinal.type = "number"; 
@@ -443,7 +441,7 @@ function addRow() {
             elementAFinal.id ="VazaoAFinal" + rowCount; 
             elementAFinal.setAttribute("onkeydown", "moveFocus(event)");
             elementAFinal.setAttribute("disabled", true);
-            elementAFinal.setAttribute("oninput", "calculaVazao()");
+            elementAFinal.setAttribute("oninput", "vazaoAFinalFuncoes()");
             cell.appendChild(elementAFinal);
                 }else if (header === "Vazão J (l/s)"){
             var elementInicial = document.createElement("input"); 
@@ -480,11 +478,9 @@ function addRow() {
             }else if (header === "Extensão (m)"){
                 var element = document.createElement("input"); 
                 element.type = "number"; 
-                element.id = "Extensão (m)" + rowCount; 
-                element.setAttribute("onchange", "calcularInfiltracao(event)"); 
+                element.id = "Extensão (m)" + rowCount;  
                 element.setAttribute("onkeydown", "moveFocus(event)");
-                element.setAttribute("oninput", "calculaContribuicaoTrecho()" );
-                element.setAttribute("onblur", "calculaDeclividade()");
+                element.setAttribute("oninput", "extensaoFuncoes()" );
                 cell.appendChild(element);
             }else if( header === "Infiltração"){
                 var elementInfiltracao = document.createElement("input");
@@ -500,13 +496,30 @@ function addRow() {
                 elementi.id = header + rowCount;
                 cell.appendChild(elementi); 
                 elementi.setAttribute("onkeydown", "moveFocus(event)");
+            }else if (header === "Decl. Col"){
+                var elementDC = document.createElement("input");
+                elementDC.type = (header === "Decl. Col") ? "number" : "text"; 
+                elementDC.id = header + rowCount;
+                elementDC.setAttribute("disabled", true);
+                elementDC.setAttribute("onkeydown", "moveFocus(event)");
+                elementDC.setAttribute("oninput", "declivColFuncoes()");
+                cell.appendChild(elementDC);
+            }else if(header === "Diam. A"){
+                var elementDiamA = document.createElement("input");
+                elementDiamA.type = ( header === "Diam. A") ? "number" : "text";
+                elementDiamA.id = header + rowCount;
+                elementDiamA.setAttribute("disabled", true);
+                elementDiamA.setAttribute("onkeydown", "moveFocus(event)");
+                elementDiamA.setAttribute("oninput", "diamAFuncoes()");
+                cell.appendChild(elementDiamA);
             } else { 
                 var element = document.createElement("input"); 
-                element.type = ( header === "Decl. Min." || header === "Decl. Col" || header === "Diam. Cal." || header === "Diam. A" || header === "Q/Qp" || header === "Lâm. Liq. (Y/D)" || header === "Verf. Lâm. Líq." || header === "Ref. Âng." || header === "Ref. Vel." || header === "Graus" || header === "Velocida (m/s)" || header === "Ver. Vel. F" || header === "Raio Hidr. (m)" || header === "Vel. Crít." || header === "Ver. Vel. Crít." || header === "Ten. Trat." || header === "Ver. Ten. Trat.") ? "number" : "text"; 
+                element.type = ( header === "Decl. Min." || header === "Diam. A" || header === "Q/Qp" || header === "Lâm. Liq. (Y/D)" || header === "Verf. Lâm. Líq." || header === "Ref. Âng." || header === "Ref. Vel." || header === "Graus" || header === "Velocida (m/s)" || header === "Ver. Vel. F" || header === "Raio Hidr. (m)" || header === "Vel. Crít." || header === "Ver. Vel. Crít." || header === "Ten. Trat." || header === "Ver. Ten. Trat.") ? "number" : "text"; 
                 element.id = header + rowCount; 
                 element.setAttribute("disabled", true);
-                cell.appendChild(element); 
                 element.setAttribute("onkeydown", "moveFocus(event)");
+                cell.appendChild(element); 
+                
         } 
         
     }); 
@@ -661,16 +674,46 @@ function calculaDiametros() {
     linhas.forEach(function(linha, index) { 
         var vazaoAFinal = parseFloat(document.getElementById("VazaoAFinal" + (index + 1)).value); 
         var declCol = parseFloat(document.getElementById("Decl. Col" + (index + 1)).value); 
-        
-        
-            var diamCal = Math.pow(0.043 * (vazaoAFinal / Math.sqrt(declCol)), 3/8);
-            document.getElementById("Diam. Cal." + (index + 1)).value = diamCal.toFixed(4); 
-            var diamA = diamCal > 150 ? diamCal : 150; 
-            document.getElementById("Diam. A" + (index + 1)).value = diamA.toFixed(4); 
-        }) 
-    }
+       
+        if (!isNaN(vazaoAFinal) && !isNaN(declCol)) { 
+            var diamCal = Math.pow(0.043 * (vazaoAFinal / Math.sqrt(declCol)), 3/8); 
+            document.getElementById("Diam. Cal." + (index + 1)).value = diamCal.toFixed(4);
+             var diamA = diamCal > 150 ? diamCal : 150; 
+             document.getElementById("Diam. A" + (index + 1)).value = diamA.toFixed(4); } }); }
 
+function extensaoFuncoes(){
+    calculaContribuicaoTrecho();
+    calculaDeclividade();
+    calcularInfiltracao();
+}
 
+function vazaoAFinalFuncoes(){
+    calculaDeclividade();
+    calculaDiametros();
+    calculaQQpf();
+}
+
+function vazaoAInicialFuncoes(){
+    calculaVelocidadeInicial();
+    calculaQQpi();
+}
+
+function cotaColFuncoes(){
+    calculaDeclividade();
+    calculaProfundidade();
+}
+
+function declivColFuncoes(){
+    calculaDiametros();
+    calculaQQpi();
+    calculaQQpf();
+}
+
+function diamAFuncoes(){
+    calculaQQpf();
+    calculaQQpi();
+    calculaVelocidadeInicial();
+}
 
 
 
