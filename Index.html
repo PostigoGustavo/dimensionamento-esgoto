@@ -18,11 +18,11 @@
             href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Barlow:wght@400;600&display=swap"
             rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+        
     </head>
 
     <body data-bs-theme="light">
-        <header class="cabecalho">
+        <header class="cabecalho toFixed">
             <nav class="navbar bg-body-tertiary navbar-expand-lg">
                 <div class="container-fluid cabecalho_conteudo">
 
@@ -30,289 +30,386 @@
                             alt="logo SAAE"></a>
                     <h1 class="titulo">Planilha para Dimensionamento de Redes Coletoras de Esgoto</h1>
 
-                    
-                    </div>
+
                 </div>
-            </nav>
+</div>
+</nav>
 
-        </header>
+</header>
 
-        <main class="wrapper">
-            <div class="content">
-                 
-                <label class="custom-file-upload"> 
-                    <i class="fas fa-download"></i> Escolher Arquivo txt
-                    <input type="file" id="inputCSV" accept=".csv" onchange="lerCSV(event)"> 
-                </label>
-                <button onclick="salvarComoXLSX()"><i class="fas fa-save"></i> </button> 
-                <button class="linha" type="button" onclick="addRow()">+</button>
-                <button type="button" onclick="removeLastRow()">-</button>
-                <button onclick="window.location.href='index.html'"><i class="fas fa-home"></i></button> 
-                <input type="number" id="TaxaInfiltração" onkeydown="moveFocus(event)" onchange="calcularInfiltracao(event)" placeholder="Tx. Infiltração">
-                <input type="number" id="ConsCapta" onkeydown="moveFocus(event)" oninput="calculaContribuicaoTrecho()" placeholder="Cons. P. Capita">
-                <input type="number" id="OcupDomus" onkeydown="moveFocus(event)" oninput="calculaContribuicaoTrecho()" placeholder="Ocup. P. Domus">
-                <input type="number" id="K1" onkeydown="moveFocus(event)" oninput="calculaContribuicaoTrecho()" placeholder="K1">
-                <input type="number" id="K2" onkeydown="moveFocus(event)" oninput="calculaContribuicaoTrecho()" placeholder="K2">
-                <input type="number" id="Unidades" onkeydown="moveFocus(event)" oninput="calculaContribuicaoTrecho()" placeholder="Nº Unidaes">
-                <input type="number" id="ExtensaoTotal" onkeydown="moveFocus(event)" oninput="calculaContribuicaoTrecho()" placeholder="Extensão Total">
-                <input type="number" id="CoefRetorno" onkeydown="moveFocus(event)" oninput="calculaContribuicaoTrecho()" placeholder="Coef. Retorno">
-                <div class="avisos">
-                    <h2 class="aviso">*Os dados devem estar separados por <strong>";"</strong>.</h2>
-                    <h3 class="aviso">*Os valores devem seguir aqueles informados na diretriz.</h3>
-                </div>
+<main class="wrapper">
+    <div class="content">
+
+        <label class="custom-file-upload">
+            <i class="fas fa-download"></i> Escolher Arquivo csv
+            <input type="file" id="inputCSV" accept=".csv, .txt" onchange="lerCSV(event)">
+        </label>
+        <button onclick="salvarComoXLSX()"><i class="botoes fas fa-save"></i> </button>
+        <button id="adicionar" onclick="addRow()" class="linha botoes" type="button" >+</button>
+        <button id="remover" onclick="removeLastRow()" type="button" class="botoes" >-</button>
+        <input class="inputexterno" type="number" id="TaxaInfiltração"  oninput="calculaInfiltracao()" onkeydown="moveFocus(event)" 
+            placeholder="Tx. Infiltração">
+        <input class="inputexterno" type="number" id="ConsCapta" onkeydown="moveFocus(event)" oninput="calculaContribuicaoTrecho()"
+            placeholder="Cons. P. Capita">
+        <input class="inputexterno" type="number" id="OcupDomus" onkeydown="moveFocus(event)" oninput="calculaContribuicaoTrecho()"
+            placeholder="Ocup. P. Domus">
+        <input class="inputexterno" type="number" id="K1" onkeydown="moveFocus(event)" oninput="calculaContribuicaoTrecho()"
+            placeholder="K1">
+        <input class="inputexterno" type="number" id="K2" onkeydown="moveFocus(event)" oninput="calculaContribuicaoTrecho()"
+            placeholder="K2">
+        <input class="inputexterno" type="number" id="Unidades" onkeydown="moveFocus(event)" oninput="calculaContribuicaoTrecho()"
+            placeholder="Nº Unidaes">
+        <input class="inputexterno" type="number" id="ExtensaoTotal" onkeydown="moveFocus(event)" oninput="calculaContribuicaoTrecho()"
+            placeholder="Extensão Total">
+        <input class="inputexterno" type="number" id="CoefRetorno" onkeydown="moveFocus(event)" oninput="calculaContribuicaoTrecho()"
+            placeholder="Coef. Retorno">
+        <input class="inputexterno" type="number" id="PopInicial" onkeydown="moveFocus(event)" oninput="calculaContribuicaoTrecho()" placeholder="Pop. Inicial 10%" disabled="true">
+        <div class="avisos">
+            <h2 class="aviso">*Os dados devem estar separados por <strong>";"</strong>.</h2>
+            <h3 class="aviso">*Os valores devem seguir aqueles informados na <strong>diretriz</strong>.</h3>
+        </div>
 
 
-             <div style = "overflow-x:auto;">
-                
-                <table id="tabelaTrechos" >
-                    <thead>
-                        <tr>
-                            <th>Bacia</th> 
-                            <th>Coletor</th> 
-                            <th>Trecho</th> 
-                            <th>P.V.</th> 
-                            <th>Extensão (m)</th> 
-                            <th>Vazão M(l/s)</th> 
-                            <th>Infiltração</th> 
-                            <th>Taxa Contr.</th> 
-                            <th>Contr. Trecho</th>
-                            <th>Vazão J (l/s)</th> 
-                            <th>Vazão A (l/s)</th> 
-                            <th>Cota Ter. (m)</th> 
-                            <th>Cota Col. (m)</th> 
-                            <th>Prof. Col. (m)</th> 
-                            <th>Decl. Min.</th> 
-                            <th>Decl. Col</th> 
-                            <th>Diam. Cal.</th> 
-                            <th>Diam. Ado.</th> 
-                            <th>Q/Qp</th> 
-                            <th>Lâm. Liq. (Y/D)</th> 
-                            <th>Verf. Lâm. Líq.</th> 
-                            <th>Ref. Âng.</th> 
-                            <th>Ref. Vel.</th> 
-                            <th>Graus</th> 
-                            <th>Velocida(m/s)</th> 
-                            <th>Ver. Vel. F</th> 
-                            <th>Raio Hidr. (m)</th> 
-                            <th>Vel. Crít.</th> 
-                            <th>Ver. Vel. Crít.</th> 
-                            <th>Ten. Trat.</th> 
-                            <th>Ver. Ten. Trat.</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><input type="text" id="Bacia1" onkeydown="moveFocus(event)"></td> 
-                            <td><input type="text" id="Coletor1" onkeydown="moveFocus(event)"></td> 
-                            <td><input type="text" id="Trecho1" onkeydown="moveFocus(event)"></td> 
-                            <td> 
-                                <input type="text" id="P.V.Montante1" placeholder="M" onkeydown="moveFocus(event)"> 
-                                <input type="text" id="P.V.Jusante1" placeholder="J" onkeydown="moveFocus(event)"> 
-                            </td> 
-                            <td><input type="number" id="Extensão (m)1" oninput="extensaoFuncoes()" onkeydown="moveFocus(event)"></td> 
-                            <td> 
-                                <input type="number" id="VazaoMInicial1" oninput="calculaVazao()" placeholder="inicial" onkeydown="moveFocus(event)"> 
-                                <input type="number" id="VazaoMFinal1" oninput="calculaVazao()" placeholder="final" onkeydown="moveFocus(event)"> 
-                            </td> 
-                            <td><input type="number" id="Infiltração1" oninput="calculaVazao()" onkeydown="moveFocus(event)" disabled=true></td> 
-                            <td>
-                                <input type="number" id="ContribuicaoInicial1" oninput="calculaContribuicaoTrecho()" disabled=true  onkeydown="moveFocus(event)" placeholder="Inicial">
-                                <input type="number" id="ContribuicaoFinal1" oninput="calculaContribuicaoTrecho()" disabled=true  onkeydown="moveFocus(event)" placeholder="Final">
-                            </td>
-                            <td>
-                                <input type="number" id="ContribuicaoTrechoInicial1" oninput="calculaVazao()" disabled=true onkeydown="moveFocus(event)" placeholder="Inicial">
-                                <input type="number" id="ContribuicaoTrechoFinal1"oninput="calculaVazao()" disabled=true onkeydown="moveFocus(event)" placeholder="Final">
-                            </td>
-                            <td>
-                                <input type="number" id="VazaoJInicial1" oninput="calculaVazao()" placeholder="inicial" disabled=true onkeydown="moveFocus(event)">
-                                <input type="number" id="VazaoJFinal1" oninput="calculaVazao()" placeholder="final" disabled=true onkeydown="moveFocus(event)">
-                            </td> 
-                            <td>
-                                <input type="number" id="VazaoAInicial1" oninput="vazaoAInicialFuncoes()" placeholder="inicial" disabled=true onkeydown="moveFocus(event)">
-                                <input type="number" id="VazaoAFinal1" oninput="vazaoAFinalFuncoes()" onchange="calculaDiametros()" placeholder="final" disabled=true onkeydown="moveFocus(event)">
-                            </td> 
-                            <td> 
-                                <input type="number" id="CotaTerMontante1" onclick="calculaProfundidade()" onchange="calculaProfundidade()" placeholder="Montante" onkeydown="moveFocus(event)"> 
-                                <input type="number" id="CotaTerJusante1" onclick="calculaProfundidade()" onchange="calculaProfundidade()" placeholder="Jusante" onkeydown="moveFocus(event)"> 
-                            </td> 
-                            <td> 
-                                <input type="number" id="CotaColMontante1" onclick="calculaProfundidade()" onchange="calculaProfundidade()" oninput="cotaColFuncoes()" placeholder="Montante" onkeydown="moveFocus(event)"> 
-                                <input type="number" id="CotaColJusante1" onclick="calculaProfundidade()" onchange="calculaProfundidade()" oninput="cotaColFuncoes()" placeholder="Jusante" onkeydown="moveFocus(event)"> 
-                            </td> 
-                            <td> 
-                                <input type="number" id="ProfColMontante1" disabled="true" placeholder="Montante" onkeydown="moveFocus(event)"> 
-                                <input type="number" id="ProfColJusante1" disabled="true" placeholder="Jusante" onkeydown="moveFocus(event)"> 
-                            </td>
-                            <td><input type="number" id="Decl. Min.1" disabled=true onkeydown="moveFocus(event)"></td> 
-                            
-                            <td><input type="number" id="Decl. Col1" disabled=true  oninput="declivColFuncoes()" onchange="calculaDiametros" onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Diam. Cal.1" onclick="calculaDiametros()" onchange="calculaDiametros()"  onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Diam. A1" disabled="true"  onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Q/Qp1" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Lâm. Liq. (Y/D)1" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Verf. Lâm. Líq.1" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Ref. Âng.1" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Ref. Vel.1" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Graus1" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Velocida (m/s)1" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Ver. Vel. F1" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Raio Hidr. (m)1" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Vel. Crít.1" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Ver. Vel. Crít.1" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Ten. Trat.1" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Ver. Ten. Trat.1" disabled=true onkeydown="moveFocus(event)"></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text" id="Bacia2" onkeydown="moveFocus(event)"></td> 
-                            <td><input type="text" id="Coletor2" onkeydown="moveFocus(event)"></td> 
-                            <td><input type="text" id="Trecho2" onkeydown="moveFocus(event)"></td> 
-                            <td> 
-                                <input type="text" id="P.V.Montante2" placeholder="M" onkeydown="moveFocus(event)"> 
-                                <input type="text" id="P.V.Jusante2" placeholder="J" onkeydown="moveFocus(event)"> 
-                            </td> 
-                            <td><input type="number" id="Extensão (m)2" oninput="extensaoFuncoes()" onkeydown="moveFocus(event)"></td> 
-                            <td> 
-                                <input type="number" id="VazaoMInicial2" oninput="calculaVazao()" placeholder="inicial" onkeydown="moveFocus(event)"> 
-                                <input type="number" id="VazaoMFinal2" oninput="calculaVazao()" placeholder="final" onkeydown="moveFocus(event)"> 
-                            </td>  
-                            <td><input type="number" id="Infiltração2" oninput="calculaVazao()" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td>
-                                <input type="number" id="ContribuicaoInicial2" disabled=true oninput="calculaContribuicaoTrecho()" onkeydown="moveFocus(event)" placeholder="Inicial">
-                                <input type="number" id="ContribuicaoFinal2" disabled=true oninput="calculaContribuicaoTrecho()" onkeydown="moveFocus(event)" placeholder="Final">
-                            </td>
-                            <td>
-                                <input type="number" id="ContribuicaoTrechoInicial2" oninput="calculaVazao()" disabled=true onkeydown="moveFocus(event)" placeholder="Inicial">
-                                <input type="number" id="ContribuicaoTrechoFinal2" oninput="calculaVazao()" disabled=true onkeydown="moveFocus(event)" placeholder="Final">
-                            </td> 
-                            <td>
-                                
-                                <input type="number" id="VazaoJInicial2" oninput="calculaVazao()" disabled=true placeholder="inicial" onkeydown="moveFocus(event)">
-                                <input type="number" id="VazaoJFinal2" oninput="calculaVazao()" disabled=true placeholder="final" onkeydown="moveFocus(event)">
-                            </td> 
-                            <td>
-                                <input type="number" id="VazaoAInicial2" oninput="vazaoAInicialFuncoes()" disabled=true placeholder="inicial" onkeydown="moveFocus(event)">
-                                <input type="number" id="VazaoAFinal2" oninput="vazaoAFinalFuncoes()" disabled=true placeholder="final" onkeydown="moveFocus(event)">
-                            </td>  
-                            <td> 
-                                <input type="number" id="CotaTerMontante2" onclick="calculaProfundidade()" onchange="calculaProfundidade()" oninput="cotaColFuncoes()" placeholder="Montante" onkeydown="moveFocus(event)"> 
-                                <input type="number" id="CotaTerJusante2" onclick="calculaProfundidade()" onchange="calculaProfundidade()" oninput="cotaColFuncoes()" placeholder="Jusante" onkeydown="moveFocus(event)"> 
-                            </td>
-                            <td> 
-                                <input type="number" id="CotaColMontante2" onclick="calculaProfundidade()" onchange="calculaProfundidade()" oninput="cotaColFuncoes()" placeholder="Montante" onkeydown="moveFocus(event)"> 
-                                <input type="number" id="CotaColJusante2" onclick="calculaProfundidade()" onchange="calculaProfundidade()" oninput="cotaColFuncoes()" placeholder="Jusante" onkeydown="moveFocus(event)"> 
-                            </td> 
-                            <td> 
-                                <input type="number" id="ProfColMontante2" oninput="calculaProfundidade()" disabled=true  placeholder="Montante" onkeydown="moveFocus(event)"> 
-                                <input type="number" id="ProfColJusante2" oninput="calculaProfundidade()" disabled=true placeholder="Jusante" onkeydown="moveFocus(event)"> 
-                            </td>
-                            <td><input type="number" id="Decl. Min.2" disabled=true onkeydown="moveFocus(event)"></td> 
-                            
-                            <td><input type="number" id="Decl. Col2" oninput="declivColFuncoes()" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Diam. Cal.2" onclick="calculaDiametros()" onchange="calculaDiametros()" onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Diam. A2" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Q/Qp2" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Lâm. Liq. (Y/D)2" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Verf. Lâm. Líq.2" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Ref. Âng.2" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Ref. Vel.2" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Graus2" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Velocida (m/s)2" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Ver. Vel. F2" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Raio Hidr. (m)2" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Vel. Crít.2" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Ver. Vel. Crít.2" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Ten. Trat.2" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Ver. Ten. Trat.2" disabled=true onkeydown="moveFocus(event)"></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text" id="Bacia3" onkeydown="moveFocus(event)"></td> 
-                            <td><input type="text" id="Coletor3" onkeydown="moveFocus(event)"></td> 
-                            <td><input type="text" id="Trecho3" onkeydown="moveFocus(event)"></td> 
-                            <td> 
-                                <input type="text" id="P.V.Montante3" placeholder="M" onkeydown="moveFocus(event)"> 
-                                <input type="text" id="P.V.Jusante3" placeholder="J" onkeydown="moveFocus(event)"> 
-                            </td> 
-                            <td><input type="number" id="Extensão (m)3" oninput="extensaoFuncoes()" onkeydown="moveFocus(event)"></td> 
-                            <td> 
-                                <input type="number" id="VazaoMInicial3" oninput="calculaVazao()" onkeydown="moveFocus(event)" placeholder="inicial"> 
-                                <input type="number" id="VazaoMFinal3" oninput="calculaVazao()" onkeydown="moveFocus(event)" placeholder="final"> 
-                            </td> 
-                            <td><input type="number" id="Infiltração3" oninput="calculaVazao()" disabled=true onkeydown="moveFocus(event)"></td>
-                            <td>
-                                <input type="number" id="ContribuicaoInicial3" disabled="true" oninput="calculaContribuicaoTrecho()" onkeydown="moveFocus(event)" placeholder="Inicial">
-                                <input type="number" id="ContribuicaoFinal3" disabled= "true" oninput="calculaContribuicaoTrecho()" onkeydown="moveFocus(event)" placeholder="Final">
-                            </td> 
-                            <td>
-                                <input type="number" id="ContribuicaoTrechoInicial3" oninput="calculaVazao()" disabled=true onkeydown="moveFocus(event)" placeholder="Inicial">
-                                <input type="number" id="ContribuicaoTrechoFinal3" oninput="calculaVazao()" disabled=true onkeydown="moveFocus(event)" placeholder="Final">
-                            </td>
-                            <td>
-                                <input type="number" id="VazaoJInicial3" oninput="calculaVazao()" disabled=true onkeydown="moveFocus(event)" placeholder="inicial">
-                                <input type="number" id="VazaoJFinal3" oninput="calculaVazao()" disabled=true onkeydown="moveFocus(event)" placeholder="final">
-                            </td> 
-                            <td>
-                                <input type="number" id="VazaoAInicial3" oninput="vazaoAInicialFuncoes()" disabled=true onkeydown="moveFocus(event)" placeholder="inicial">
-                                <input type="number" id="VazaoAFinal3"  oninput="vazaoAFinalFuncoes()" disabled=true onkeydown="moveFocus(event)" placeholder="final">
-                            </td>  
-                            <td> 
-                                <input type="number" id="CotaTerMontante3" onclick="calculaProfundidade()" onchange="calculaProfundidade()" oninput="calculaProfundidade()" placeholder="Montante" onkeydown="moveFocus(event)"> 
-                                <input type="number" id="CotaTerJusante3" onclick="calculaProfundidade()" onchange="calculaProfundidade()" oninput="calculaProfundidade()" placeholder="Jusante" onkeydown="moveFocus(event)"> 
-                            </td> 
-                            <td> 
-                                <input type="number" id="CotaColMontante3" onclick="calculaProfundidade()" onchange="calculaProfundidade()"  oninput="cotaColFuncoes()" placeholder="Montante" onkeydown="moveFocus(event)"> 
-                                <input type="number" id="CotaColJusante3" onclick="calculaProfundidade()" onchange="calculaProfundidade()" oninput="cotaColFuncoes()" placeholder="Jusante" onkeydown="moveFocus(event)"> 
-                            </td> 
-                            <td> 
-                                <input type="number" id="ProfColMontante3"disabled=true oninput="calculaProfundidade()" placeholder="Montante" onkeydown="moveFocus(event)"> 
-                                <input type="number" id="ProfColJusante3" disabled=true oninput="calculaProfundidade()" placeholder="Jusante" onkeydown="moveFocus(event)"> 
-                            </td>
-                            <td><input type="number" id="Decl. Min.3" disabled=true onkeydown="moveFocus(event)"></td> 
-                            
-                            <td><input type="number" id="Decl. Col3" oninput="declivColFuncoes()" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Diam. Cal.3" onclick="calculaDiametros()" onchange="calculaDiametros()" onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Diam. A3" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Q/Qp3" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Lâm. Liq. (Y/D)3" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Verf. Lâm. Líq.3" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Ref. Âng.3" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Ref. Vel.3" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Graus3" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Velocida (m/s)3" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Ver. Vel. F3" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Raio Hidr. (m)3" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Vel. Crít.3" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Ver. Vel. Crít.3" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Ten. Trat.3" disabled=true onkeydown="moveFocus(event)"></td> 
-                            <td><input type="number" id="Ver. Ten. Trat.3" disabled=true onkeydown="moveFocus(event)"></td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div style="overflow-x:auto;">
 
-            </div>
-                
-            </div>
-        </main>
-        <footer class="text-center fixed-bottom footer">
-            <section class="container p-4 pb-0 mb-1">
-                <a class="btn" href="https://github.com/PostigoGustavo"><i class="bi bi-github"></i></a>
-                <a class="btn" href="https://www.instagram.com/postigo_gustavo/"><i class="bi bi-instagram"></i></a>
-                <a class="btn" href="https://www.linkedin.com/in/gustavo-postigo-santos-0642a5216/"><i
-                        class="bi bi-linkedin"></i></i></a>
-            </section>
-            <div class="mb-1">
-                2024 <i class="bi bi-c-circle"></i>SAAE Desenvolvido por Gustavo Postigo Santos
-            </div>
-        </footer>
+            <table id="tabelaTrechos">
+                <thead>
+                    <tr>
+                        <th>Bacia</th>
+                        <th>Coletor</th>
+                        <th>Trecho</th>
+                        <th>P.V.</th>
+                        <th>Extensão (m)</th>
+                        <th>Vazão M(l/s)</th>
+                        <th>Cota Ter. (m)</th>
+                        <th>Cota Col. (m)</th>
+                        <th>Infiltração</th>
+                        <th>Taxa Contr.</th>
+                        <th>Contr. Trecho</th>
+                        <th>Vazão J (l/s)</th>
+                        <th>Vazão A (l/s)</th>
+                        <th>Prof. Col. (m)</th>
+                        <th>Decl. Min. (m/m)</th>
+                        <th>Decl. Col. (m/m)</th>
+                        <th>Diam. Cal. (mm)</th>
+                        <th>Diam. Ado. (mm)</th>
+                        <th>Q/Qp (10^(-6))</th>
+                        <th>Lâm. Liq. (Y/D)</th>
+                        <th>Verf. Lâm. Líq.</th>
+                        <th>Ref. Âng.</th>
+                        <th>Ref. Vel.</th>
+                        <th>Graus</th>
+                        <th>Velocida(m/s)</th>
+                        <th>Ver. Vel. F</th>
+                        <th>Raio Hidr. (m)</th>
+                        <th>Vel. Crít.</th>
+                        <th>Ver. Vel. Crít.</th>
+                        <th>Ten. Trat.</th>
+                        <th>Ver. Ten. Trat.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" id="Bacia1" onkeydown="moveFocus(event)"></td>
+                        <td><input type="text" id="Coletor1" onkeydown="moveFocus(event)"></td>
+                        <td><input type="text" id="Trecho1" onkeydown="moveFocus(event)"></td>
+                        <td>
+                            <input type="text" id="P.V.Montante1" placeholder="M" onkeydown="moveFocus(event)">
+                            <input type="text" id="P.V.Jusante1" placeholder="J" onkeydown="moveFocus(event)">
+                        </td>
+                        <td><input type="number" id="Extensão (m)1" oninput="extensaoFuncoes()"
+                                onkeydown="moveFocus(event)"></td>
+                        <td>
+                            <input type="number" id="VazaoMInicial1" oninput="calculaVazao()" placeholder="inicial"
+                                onkeydown="moveFocus(event)">
+                            <input type="number" id="VazaoMFinal1" oninput="calculaVazao()" placeholder="final"
+                                onkeydown="moveFocus(event)">
+                        </td>
+                        <td>
+                            <input type="number" id="CotaTerMontante1" onclick="calculaProfundidade()"
+                                onchange="calculaProfundidade()" placeholder="Montante" onkeydown="moveFocus(event)">
+                            <input type="number" id="CotaTerJusante1" onclick="calculaProfundidade()"
+                                onchange="calculaProfundidade()" placeholder="Jusante" onkeydown="moveFocus(event)">
+                        </td>
+                        <td>
+                            <input type="number" id="CotaColMontante1" onclick="calculaProfundidade()"
+                                onchange="calculaProfundidade()" oninput="cotaColFuncoes()" placeholder="Montante"
+                                onkeydown="moveFocus(event)">
+                            <input type="number" id="CotaColJusante1" onclick="calculaProfundidade()"
+                                onchange="calculaProfundidade()" oninput="cotaColFuncoes()" placeholder="Jusante"
+                                onkeydown="moveFocus(event)">
+                        </td>
+                        <td><input type="number" id="Infiltração1" oninput="calculaVazao()" onkeydown="moveFocus(event)"
+                                disabled=true></td>
+                        <td>
+                            <input type="number" id="ContribuicaoInicial1" oninput="calculaContribuicaoTrecho()"
+                                disabled=true onkeydown="moveFocus(event)" placeholder="Inicial">
+                            <input type="number" id="ContribuicaoFinal1" oninput="calculaContribuicaoTrecho()"
+                                disabled=true onkeydown="moveFocus(event)" placeholder="Final">
+                        </td>
+                        <td>
+                            <input type="number" id="ContribuicaoTrechoInicial1" oninput="calculaVazao()" disabled=true
+                                onkeydown="moveFocus(event)" placeholder="Inicial">
+                            <input type="number" id="ContribuicaoTrechoFinal1" oninput="calculaVazao()" disabled=true
+                                onkeydown="moveFocus(event)" placeholder="Final">
+                        </td>
+                        <td>
+                            <input type="number" id="VazaoJInicial1" oninput="calculaVazao()" placeholder="inicial"
+                                disabled=true onkeydown="moveFocus(event)">
+                            <input type="number" id="VazaoJFinal1" oninput="calculaVazao()" placeholder="final"
+                                disabled=true onkeydown="moveFocus(event)">
+                        </td>
+                        <td>
+                            <input type="number" id="VazaoAInicial1" oninput="vazaoAInicialFuncoes()"
+                                placeholder="inicial" disabled=true onkeydown="moveFocus(event)">
+                            <input type="number" id="VazaoAFinal1" oninput="vazaoAFinalFuncoes()"
+                                onchange="calculaDiametros()" placeholder="final" disabled=true
+                                onkeydown="moveFocus(event)">
+                        </td>
+                        
+                        <td>
+                            <input type="number" id="ProfColMontante1" disabled="true" placeholder="Montante"
+                                onkeydown="moveFocus(event)">
+                            <input type="number" id="ProfColJusante1" disabled="true" placeholder="Jusante"
+                                onkeydown="moveFocus(event)">
+                        </td>
+                        <td><input type="number" id="Decl. Min.1" disabled=true onkeydown="moveFocus(event)"></td>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
-        <script>
+                        <td><input type="number" id="Decl. Col1" disabled=true oninput="declivColFuncoes()"
+                                onchange="calculaDiametros" onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Diam. Cal.1"  onclick="calculaDiametros()"
+                                onchange="calculaDiametros()" onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Diam. A1"  disabled="true" onkeydown="moveFocus(event)"></td>
+                        
+                        <td>
+                            <input type="number" id="Q/QpInicial1" placeholder="inicial"  onkeydown="moveFocus(event)">
+                            <input type="number" id="Q/QpFinal1" placeholder="final" disabled=true onkeydown="moveFocus(event)">
+                        </td> 
+                        <td><input type="number" id="Lâm. Liq. (Y/D)1" disabled=true onkeydown="moveFocus(event)"></td> 
+                        <td><input type="number" id="Verf. Lâm. Líq.1" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Ref. Âng.1" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Ref. Vel.1" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Graus1" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Velocida (m/s)1" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Ver. Vel. F1" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Raio Hidr. (m)1" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Vel. Crít.1" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Ver. Vel. Crít.1" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Ten. Trat.1" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Ver. Ten. Trat.1" disabled=true onkeydown="moveFocus(event)"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="Bacia2" onkeydown="moveFocus(event)"></td>
+                        <td><input type="text" id="Coletor2" onkeydown="moveFocus(event)"></td>
+                        <td><input type="text" id="Trecho2" onkeydown="moveFocus(event)"></td>
+                        <td>
+                            <input type="text" id="P.V.Montante2" placeholder="M" onkeydown="moveFocus(event)">
+                            <input type="text" id="P.V.Jusante2" placeholder="J" onkeydown="moveFocus(event)">
+                        </td>
+                        <td><input type="number" id="Extensão (m)2" oninput="extensaoFuncoes()"
+                                onkeydown="moveFocus(event)"></td>
+                        <td>
+                            <input type="number" id="VazaoMInicial2" oninput="calculaVazao()" placeholder="inicial"
+                                onkeydown="moveFocus(event)">
+                            <input type="number" id="VazaoMFinal2" oninput="calculaVazao()" placeholder="final"
+                                onkeydown="moveFocus(event)">
+                        </td>
+                        <td>
+                            <input type="number" id="CotaTerMontante2" onclick="calculaProfundidade()"
+                                onchange="calculaProfundidade()" oninput="cotaColFuncoes()" placeholder="Montante"
+                                onkeydown="moveFocus(event)">
+                            <input type="number" id="CotaTerJusante2" onclick="calculaProfundidade()"
+                                onchange="calculaProfundidade()" oninput="cotaColFuncoes()" placeholder="Jusante"
+                                onkeydown="moveFocus(event)">
+                        </td>
+                        <td>
+                            <input type="number" id="CotaColMontante2" onclick="calculaProfundidade()"
+                                onchange="calculaProfundidade()" oninput="cotaColFuncoes()" placeholder="Montante"
+                                onkeydown="moveFocus(event)">
+                            <input type="number" id="CotaColJusante2" onclick="calculaProfundidade()"
+                                onchange="calculaProfundidade()" oninput="cotaColFuncoes()" placeholder="Jusante"
+                                onkeydown="moveFocus(event)">
+                        </td>
+                        <td><input type="number" id="Infiltração2" oninput="calculaVazao()" disabled=true
+                                onkeydown="moveFocus(event)"></td>
+                        <td>
+                            <input type="number" id="ContribuicaoInicial2" disabled=true
+                                oninput="calculaContribuicaoTrecho()" onkeydown="moveFocus(event)"
+                                placeholder="Inicial">
+                            <input type="number" id="ContribuicaoFinal2" disabled=true
+                                oninput="calculaContribuicaoTrecho()" onkeydown="moveFocus(event)" placeholder="Final">
+                        </td>
+                        <td>
+                            <input type="number" id="ContribuicaoTrechoInicial2" oninput="calculaVazao()" disabled=true
+                                onkeydown="moveFocus(event)" placeholder="Inicial">
+                            <input type="number" id="ContribuicaoTrechoFinal2" oninput="calculaVazao()" disabled=true
+                                onkeydown="moveFocus(event)" placeholder="Final">
+                        </td>
+                        <td>
+
+                            <input type="number" id="VazaoJInicial2" oninput="calculaVazao()" disabled=true
+                                placeholder="inicial" onkeydown="moveFocus(event)">
+                            <input type="number" id="VazaoJFinal2" oninput="calculaVazao()" disabled=true
+                                placeholder="final" onkeydown="moveFocus(event)">
+                        </td>
+                        <td>
+                            <input type="number" id="VazaoAInicial2" oninput="vazaoAInicialFuncoes()" disabled=true
+                                placeholder="inicial" onkeydown="moveFocus(event)">
+                            <input type="number" id="VazaoAFinal2" oninput="vazaoAFinalFuncoes()" disabled=true
+                                placeholder="final" onkeydown="moveFocus(event)">
+                        </td>
+                        
+                        <td>
+                            <input type="number" id="ProfColMontante2" oninput="calculaProfundidade()" disabled=true
+                                placeholder="Montante" onkeydown="moveFocus(event)">
+                            <input type="number" id="ProfColJusante2" oninput="calculaProfundidade()" disabled=true
+                                placeholder="Jusante" onkeydown="moveFocus(event)">
+                        </td>
+                        <td><input type="number" id="Decl. Min.2" disabled=true onkeydown="moveFocus(event)"></td>
+
+                        <td><input type="number" id="Decl. Col2" oninput="declivColFuncoes()" disabled=true
+                                onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Diam. Cal.2" onclick="calculaDiametros()"
+                                onchange="calculaDiametros()" onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Diam. A2" disabled=true onkeydown="moveFocus(event)"></td>
+                        
+                        <td>
+                            <input type="number" id="Q/QpInicial2" placeholder="inicial"  onkeydown="moveFocus(event)">
+                            <input type="number" id="Q/QpFinal2" placeholder="final" disabled=true onkeydown="moveFocus(event)">
+                        </td> 
+                        <td><input type="number" id="Lâm. Liq. (Y/D)2" disabled=true onkeydown="moveFocus(event)"></td> 
+                        <td><input type="number" id="Verf. Lâm. Líq.2" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Ref. Âng.2" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Ref. Vel.2" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Graus2" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Velocida (m/s)2" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Ver. Vel. F2" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Raio Hidr. (m)2" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Vel. Crít.2" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Ver. Vel. Crít.2" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Ten. Trat.2" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Ver. Ten. Trat.2" disabled=true onkeydown="moveFocus(event)"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="Bacia3" onkeydown="moveFocus(event)"></td>
+                        <td><input type="text" id="Coletor3" onkeydown="moveFocus(event)"></td>
+                        <td><input type="text" id="Trecho3" onkeydown="moveFocus(event)"></td>
+                        <td>
+                            <input type="text" id="P.V.Montante3" placeholder="M" onkeydown="moveFocus(event)">
+                            <input type="text" id="P.V.Jusante3" placeholder="J" onkeydown="moveFocus(event)">
+                        </td>
+                        <td><input type="number" id="Extensão (m)3" oninput="extensaoFuncoes()"
+                                onkeydown="moveFocus(event)"></td>
+                        <td>
+                            <input type="number" id="VazaoMInicial3" oninput="calculaVazao()"
+                                onkeydown="moveFocus(event)" placeholder="inicial">
+                            <input type="number" id="VazaoMFinal3" oninput="calculaVazao()" onkeydown="moveFocus(event)"
+                                placeholder="final">
+                        </td>
+                        <td>
+                            <input type="number" id="CotaTerMontante3" onclick="calculaProfundidade()"
+                                onchange="calculaProfundidade()" oninput="calculaProfundidade()" placeholder="Montante"
+                                onkeydown="moveFocus(event)">
+                            <input type="number" id="CotaTerJusante3" onclick="calculaProfundidade()"
+                                onchange="calculaProfundidade()" oninput="calculaProfundidade()" placeholder="Jusante"
+                                onkeydown="moveFocus(event)">
+                        </td>
+                        <td>
+                            <input type="number" id="CotaColMontante3" onclick="calculaProfundidade()"
+                                onchange="calculaProfundidade()" oninput="cotaColFuncoes()" placeholder="Montante"
+                                onkeydown="moveFocus(event)">
+                            <input type="number" id="CotaColJusante3" onclick="calculaProfundidade()"
+                                onchange="calculaProfundidade()" oninput="cotaColFuncoes()" placeholder="Jusante"
+                                onkeydown="moveFocus(event)">
+                        </td>
+                        <td><input type="number" id="Infiltração3" oninput="calculaVazao()" disabled=true
+                                onkeydown="moveFocus(event)"></td>
+                        <td>
+                            <input type="number" id="ContribuicaoInicial3" disabled="true"
+                                oninput="calculaContribuicaoTrecho()" onkeydown="moveFocus(event)"
+                                placeholder="Inicial">
+                            <input type="number" id="ContribuicaoFinal3" disabled="true"
+                                oninput="calculaContribuicaoTrecho()" onkeydown="moveFocus(event)" placeholder="Final">
+                        </td>
+                        <td>
+                            <input type="number" id="ContribuicaoTrechoInicial3" oninput="calculaVazao()" disabled=true
+                                onkeydown="moveFocus(event)" placeholder="Inicial">
+                            <input type="number" id="ContribuicaoTrechoFinal3" oninput="calculaVazao()" disabled=true
+                                onkeydown="moveFocus(event)" placeholder="Final">
+                        </td>
+                        <td>
+                            <input type="number" id="VazaoJInicial3" oninput="calculaVazao()" disabled=true
+                                onkeydown="moveFocus(event)" placeholder="inicial">
+                            <input type="number" id="VazaoJFinal3" oninput="calculaVazao()" disabled=true
+                                onkeydown="moveFocus(event)" placeholder="final">
+                        </td>
+                        <td>
+                            <input type="number" id="VazaoAInicial3" oninput="vazaoAInicialFuncoes()" disabled=true
+                                onkeydown="moveFocus(event)" placeholder="inicial">
+                            <input type="number" id="VazaoAFinal3" oninput="vazaoAFinalFuncoes()" disabled=true
+                                onkeydown="moveFocus(event)" placeholder="final">
+                        </td>
+                        
+                        <td>
+                            <input type="number" id="ProfColMontante3" disabled=true oninput="calculaProfundidade()"
+                                placeholder="Montante" onkeydown="moveFocus(event)">
+                            <input type="number" id="ProfColJusante3" disabled=true oninput="calculaProfundidade()"
+                                placeholder="Jusante" onkeydown="moveFocus(event)">
+                        </td>
+                        <td><input type="number" id="Decl. Min.3" disabled=true onkeydown="moveFocus(event)"></td>
+
+                        <td><input type="number" id="Decl. Col3" oninput="declivColFuncoes()" disabled=true
+                                onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Diam. Cal.3" onclick="calculaDiametros()"
+                                onchange="calculaDiametros()" onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Diam. A3" disabled=true onkeydown="moveFocus(event)"></td>
+                        
+                        <td>
+                            <input type="number" id="Q/QpInicial3" placeholder="inicial"  onkeydown="moveFocus(event)">
+                            <input type="number" id="Q/QpFinal3" placeholder="final" disabled=true onkeydown="moveFocus(event)">
+                        </td>
+                        <td><input type="number" id="Lâm. Liq. (Y/D)3" disabled=true onkeydown="moveFocus(event)"></td> 
+                        <td><input type="number" id="Verf. Lâm. Líq.3" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Ref. Âng.3" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Ref. Vel.3" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Graus3" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Velocida (m/s)3" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Ver. Vel. F3" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Raio Hidr. (m)3" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Vel. Crít.3" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Ver. Vel. Crít.3" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Ten. Trat.3" disabled=true onkeydown="moveFocus(event)"></td>
+                        <td><input type="number" id="Ver. Ten. Trat.3" disabled=true onkeydown="moveFocus(event)"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</main>
+<footer class="text-center fixed-bottom footer">
+    <section class="container p-4 pb-0 mb-1">
+        <a class="btn" href="https://github.com/PostigoGustavo"><i class="bi bi-github"></i></a>
+        <a class="btn" href="https://www.instagram.com/postigo_gustavo/"><i class="bi bi-instagram"></i></a>
+        <a class="btn" href="https://www.linkedin.com/in/gustavo-postigo-santos-0642a5216/"><i
+                class="bi bi-linkedin"></i></i></a>
+    </section>
+    <div class="mb-1">
+        2024 <i class="bi bi-c-circle"></i>SAAE Atibaia - Desenvolvido por Gustavo Postigo Santos
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+
+<script>
 
 function addRow() { 
     var table = document.getElementById("tabelaTrechos").getElementsByTagName('tbody')[0]; 
     var rowCount = table.rows.length + 1; 
     var row = table.insertRow(); 
-    var headers = [ "Bacia", "Coletor", "Trecho", "P.V.", "Extensão (m)", "Vazão M (l/s)", "Infiltração", "Taxa Contr.", "Contr. Trecho", "Vazão J (l/s)", 
-    "Vazão A (l/s)", "Cota Ter. (m)", "Cota Col. (m)", "Prof. Col. (m)", "Decl. Min.", "Decl. Col", "Diam. Cal.", "Diam. A", "Q/Qp", "Lâm. Liq. (Y/D)",
+    var headers = [ "Bacia", "Coletor", "Trecho", "P.V.", "Extensão (m)", "Vazão M (l/s)", "Cota Ter. (m)", "Cota Col. (m)", "Infiltração", "Taxa Contr.", "Contr. Trecho", "Vazão J (l/s)", 
+    "Vazão A (l/s)",  "Prof. Col. (m)", "Decl. Min.", "Decl. Col", "Diam. Cal.", "Diam. A", "Q/Qp (10^(-6))", "Lâm. Liq. (Y/D)",
      "Verf. Lâm. Líq.", "Ref. Âng.", "Ref. Vel.", "Graus", "Velocida (m/s)", "Ver. Vel. F", "Raio Hidr. (m)", "Vel. Crít.", "Ver. Vel. Crít.", 
      "Ten. Trat.", "Ver. Ten. Trat." ]; 
      headers.forEach((header, index) => { 
@@ -523,349 +620,491 @@ function addRow() {
                 cell.appendChild(elementDiamCal);
             }else if(header === "Diam. Ado."){
                 var elementDiamA = document.createElement("input");
-                elementDiamA.type = ( header === "Diam. A" || header === "Diam. Cal.") ? "number" : "text";
+                elementDiamA.type = ( header === "Diam. A") ? "number" : "text";
                 elementDiamA.id = header + rowCount;
                 elementDiamA.setAttribute("disabled", true);
                 elementDiamA.setAttribute("onkeydown", "moveFocus(event)");
                 elementDiamA.setAttribute("oninput", "diamAFuncoes()");
                 cell.appendChild(elementDiamA);
+            }else if( header === "Q/Qp (10^(-6))" ){
+                var elemtQqpi = document.createElement("input");
+                elemtQqpi.type = ( header === "Q/Qp (10^(-6))" ) ? "number" : "text";
+                elemtQqpi.id = "Q/QpInicial" + rowCount;
+                elemtQqpi.placeholder= "inicial";
+                elemtQqpi.setAttribute("onkeydown", "moveFocus(event)");
+                elemtQqpi.setAttribute("onchange", "calculaQQp()");
+                elemtQqpi.setAttribute("onclick", "calculaQQp()");
+                cell.appendChild(elemtQqpi);
+                var elemtQqpf = document.createElement("input");
+                elemtQqpf.type = ( header === "Q/Qp (10^(-6))" ) ? "number" : "text";
+                elemtQqpf.id = "Q/QpFinal" + rowCount;
+                elemtQqpf.placeholder= "final";
+                elemtQqpf.setAttribute("onkeydown", "moveFocus(event)");
+                cell.appendChild(elemtQqpf);
             } else { 
                 var element = document.createElement("input"); 
-                element.type = ( header === "Decl. Min." || header === "Q/Qp" || header === "Lâm. Liq. (Y/D)" || header === "Verf. Lâm. Líq." || header === "Ref. Âng." || header === "Ref. Vel." || header === "Graus" || header === "Velocida (m/s)" || header === "Ver. Vel. F" || header === "Raio Hidr. (m)" || header === "Vel. Crít." || header === "Ver. Vel. Crít." || header === "Ten. Trat." || header === "Ver. Ten. Trat.") ? "number" : "text"; 
+                element.type = ( header === "Decl. Min." || header === "Lâm. Liq. (Y/D)" || header === "Verf. Lâm. Líq." || header === "Ref. Âng." || header === "Ref. Vel." || header === "Graus" || header === "Velocida (m/s)" || header === "Ver. Vel. F" || header === "Raio Hidr. (m)" || header === "Vel. Crít." || header === "Ver. Vel. Crít." || header === "Ten. Trat." || header === "Ver. Ten. Trat.") ? "number" : "text"; 
                 element.id = header + rowCount; 
                 element.setAttribute("disabled", true);
-                cell.appendChild(element); 
                 element.setAttribute("onkeydown", "moveFocus(event)");
+                cell.appendChild(element); 
+                
         } 
         
     }); 
-    calculaContribuicaoTrecho();
-        calculaDeclividade();
-        calculaDiametros();
-        calculaProfundidade();
-        calculaVazao();
-        calcularInfiltracao();
-        extensaoFuncoes();
-        vazaoAInicialFuncoes();
-        vazaoAFinalFuncoes();
-        declivColFuncoes();
-        diamAFuncoes();
-            } 
-            
-            function calcularContribuicao() { 
-                var consP_Capita = parseFloat(document.getElementById("ConsCapta").value); 
-                var ocupP_Domus = parseFloat(document.getElementById("OcupDomus").value); 
-                var k1 = parseFloat(document.getElementById("K1").value); 
-                var k2 = parseFloat(document.getElementById("K2").value); 
-                var numUnidades = parseFloat(document.getElementById("Unidades").value); 
-                var coefRetorno = parseFloat(document.getElementById("CoefRetorno").value); 
-                var extensaoTotal = parseFloat(document.getElementById("ExtensaoTotal").value); 
-                
-                var contribuicaoFinal = (consP_Capita * ocupP_Domus * k1 * k2 * numUnidades * coefRetorno) / (extensaoTotal * 86400); 
-                var contribuicaoFinalArredondada = contribuicaoFinal.toFixed(4); 
-                var contribuicaoInicial = (contribuicaoFinal * 0.1).toFixed(4); 
-                // Atribui o resultado a todos os campos de "Contribuição Final" e "Contribuição Inicial" 
-                var inputsContribuicaoFinal = document.querySelectorAll('[id^="ContribuicaoFinal"]'); 
-                var inputsContribuicaoInicial = document.querySelectorAll('[id^="ContribuicaoInicial"]'); 
-                inputsContribuicaoFinal.forEach(function(input) { input.value = contribuicaoFinalArredondada; }); 
-                inputsContribuicaoInicial.forEach(function(input) { input.value = contribuicaoInicial; }); }
-
-                function calculaContribuicaoTrecho() { 
-                    var linhas = document.querySelectorAll("#tabelaTrechos tr"); 
-                    linhas.forEach(function(linha, index) { 
-                        var extensao = parseFloat(document.getElementById("Extensão (m)" + (index + 1)).value); 
-                        var contribuicaoInicial = parseFloat(document.getElementById("ContribuicaoInicial" + (index + 1)).value); 
-                        var contribuicaoFinal = parseFloat(document.getElementById("ContribuicaoFinal" + (index + 1)).value); 
-                        if (!isNaN(extensao) && !isNaN(contribuicaoInicial) && !isNaN(contribuicaoFinal)) { 
-                            var contrTrechoInicial = extensao * contribuicaoInicial; 
-                            var contrTrechoFinal = extensao * contribuicaoFinal; 
-                            document.getElementById("ContribuicaoTrechoInicial" + (index + 1)).value = contrTrechoInicial.toFixed(4); 
-                            document.getElementById("ContribuicaoTrechoFinal" + (index + 1)).value = contrTrechoFinal.toFixed(4); 
-                        } }); }
-            
-                        function calculaVazao() { 
-    var linhas = document.querySelectorAll("#tabelaTrechos tr"); 
-    linhas.forEach(function(linha, index) { 
-        var vazaoMInicial = parseFloat(document.getElementById("VazaoMInicial" + (index + 1)).value); 
-        var infiltracao = parseFloat(document.getElementById("Infiltração" + (index + 1)).value); 
-        var contrTrechoInicial = parseFloat(document.getElementById("ContribuicaoTrechoInicial" + (index + 1)).value); 
-        var vazaoMFinal = parseFloat(document.getElementById("VazaoMFinal" + (index + 1)).value); 
-        var contrTrechoFinal = parseFloat(document.getElementById("ContribuicaoTrechoFinal" + (index + 1)).value); 
-
-        if (!isNaN(vazaoMInicial) && !isNaN(infiltracao) && !isNaN(contrTrechoInicial)) { 
-        var vazaoJInicial = vazaoMInicial + infiltracao + contrTrechoInicial;
-        document.getElementById("VazaoJInicial" + (index + 1)).value = vazaoJInicial.toFixed(4); 
-        } 
-
-        if (!isNaN(vazaoMFinal) && !isNaN(infiltracao) && !isNaN(contrTrechoFinal)) { 
-            var vazaoJFinal = vazaoMFinal + infiltracao + contrTrechoFinal; 
-            document.getElementById("VazaoJFinal" + (index + 1)).value = vazaoJFinal.toFixed(4); 
-        } 
-
-       // Verifica se Vazão J (l/s) inicial é maior que 1,5 e define Vazão A (l/s) inicial 
-       var vazaoJInicial = parseFloat(document.getElementById("VazaoJInicial" + (index + 1)).value); 
-       if (!isNaN(vazaoJInicial)) { 
-        var vazaoAInicial = vazaoJInicial > 1.5 ? vazaoJInicial : 1.5; 
-        document.getElementById("VazaoAInicial" + (index + 1)).value = vazaoAInicial.toFixed(4); 
-    } 
     
-    // Verifica se Vazão J (l/s) final é maior que 1,5 e define Vazão A (l/s) final 
-    var vazaoJFinal = parseFloat(document.getElementById("VazaoJFinal" + (index + 1)).value); 
-    if (!isNaN(vazaoJFinal)) { 
-        var vazaoAFinal = vazaoJFinal > 1.5 ? vazaoJFinal : 1.5; 
-        document.getElementById("VazaoAFinal" + (index + 1)).value = vazaoAFinal.toFixed(4); 
+            } 
+
+    function calcularContribuicao() {
+        var consP_Capita = parseFloat(document.getElementById("ConsCapta").value);
+        var ocupP_Domus = parseFloat(document.getElementById("OcupDomus").value);
+        var k1 = parseFloat(document.getElementById("K1").value);
+        var k2 = parseFloat(document.getElementById("K2").value);
+        var numUnidades = parseFloat(document.getElementById("Unidades").value);
+        var coefRetorno = parseFloat(document.getElementById("CoefRetorno").value);
+        var extensaoTotal = parseFloat(document.getElementById("ExtensaoTotal").value);
+        var popInicial = 0.1;
+        var contribuicaoFinal = (consP_Capita * ocupP_Domus * k1 * k2 * numUnidades * coefRetorno) / (extensaoTotal * 86400);
+        var contribuicaoFinalArredondada = contribuicaoFinal.toFixed(4);
+        var contribuicaoInicial = (contribuicaoFinal * popInicial).toFixed(4);
+        // Atribui o resultado a todos os campos de "Contribuição Final" e "Contribuição Inicial" 
+        var inputsContribuicaoFinal = document.querySelectorAll('[id^="ContribuicaoFinal"]');
+        var inputsContribuicaoInicial = document.querySelectorAll('[id^="ContribuicaoInicial"]');
+        inputsContribuicaoFinal.forEach(function (input) { input.value = contribuicaoFinalArredondada; });
+        inputsContribuicaoInicial.forEach(function (input) { input.value = contribuicaoInicial; });
     }
+
+    function calculaContribuicaoTrecho() {
+        var linhas = document.querySelectorAll("#tabelaTrechos tr");
+        linhas.forEach(function (linha, index) {
+            var extensao = parseFloat(document.getElementById("Extensão (m)" + (index + 1)).value);
+            var contribuicaoInicial = parseFloat(document.getElementById("ContribuicaoInicial" + (index + 1)).value);
+            var contribuicaoFinal = parseFloat(document.getElementById("ContribuicaoFinal" + (index + 1)).value);
+            if (!isNaN(extensao) && !isNaN(contribuicaoInicial) && !isNaN(contribuicaoFinal)) {
+                var contrTrechoInicial = extensao * contribuicaoInicial;
+                var contrTrechoFinal = extensao * contribuicaoFinal;
+                document.getElementById("ContribuicaoTrechoInicial" + (index + 1)).value = contrTrechoInicial.toFixed(4);
+                document.getElementById("ContribuicaoTrechoFinal" + (index + 1)).value = contrTrechoFinal.toFixed(4);
+            }
+        });
+    }
+
+    function calculaVazao() {
+        var linhas = document.querySelectorAll("#tabelaTrechos tr");
+        linhas.forEach(function (linha, index) {
+            var vazaoMInicial = parseFloat(document.getElementById("VazaoMInicial" + (index + 1)).value);
+            var infiltracao = parseFloat(document.getElementById("Infiltração" + (index + 1)).value);
+            var contrTrechoInicial = parseFloat(document.getElementById("ContribuicaoTrechoInicial" + (index + 1)).value);
+            var vazaoMFinal = parseFloat(document.getElementById("VazaoMFinal" + (index + 1)).value);
+            var contrTrechoFinal = parseFloat(document.getElementById("ContribuicaoTrechoFinal" + (index + 1)).value);
+
+            if (!isNaN(vazaoMInicial) && !isNaN(infiltracao) && !isNaN(contrTrechoInicial)) {
+                var vazaoJInicial = vazaoMInicial + infiltracao + contrTrechoInicial;
+                document.getElementById("VazaoJInicial" + (index + 1)).value = vazaoJInicial.toFixed(4);
+            }
+
+            if (!isNaN(vazaoMFinal) && !isNaN(infiltracao) && !isNaN(contrTrechoFinal)) {
+                var vazaoJFinal = vazaoMFinal + infiltracao + contrTrechoFinal;
+                document.getElementById("VazaoJFinal" + (index + 1)).value = vazaoJFinal.toFixed(4);
+            }
+
+            // Verifica se Vazão J (l/s) inicial é maior que 1,5 e define Vazão A (l/s) inicial 
+            var vazaoJInicial = parseFloat(document.getElementById("VazaoJInicial" + (index + 1)).value);
+            if (!isNaN(vazaoJInicial)) {
+                var vazaoAInicial = vazaoJInicial > 1.5 ? vazaoJInicial : 1.5;
+                document.getElementById("VazaoAInicial" + (index + 1)).value = vazaoAInicial.toFixed(4);
+            }
+
+            // Verifica se Vazão J (l/s) final é maior que 1,5 e define Vazão A (l/s) final 
+            var vazaoJFinal = parseFloat(document.getElementById("VazaoJFinal" + (index + 1)).value);
+            if (!isNaN(vazaoJFinal)) {
+                var vazaoAFinal = vazaoJFinal > 1.5 ? vazaoJFinal : 1.5;
+                document.getElementById("VazaoAFinal" + (index + 1)).value = vazaoAFinal.toFixed(4);
+            }
 
         });
-                               
+
+    }
+
+    // Função para calcular a infiltração e exibir o resultado
+    function calcularInfiltracao(event) {
+        var taxaInfiltracao = parseFloat(document.getElementById("TaxaInfiltração").value);
+        var inputExtensao = event.target;
+        var linha = inputExtensao.closest('tr');
+        var inputInfiltracao = linha.querySelector('input[id^="Infiltração"]');
+
+        if (inputExtensao && inputInfiltracao) {
+            var valorExtensao = parseFloat(inputExtensao.value);
+            var resultadoInfiltracao = valorExtensao * taxaInfiltracao;
+            inputInfiltracao.value = resultadoInfiltracao.toFixed(2);
         }
-
-// Função para calcular a infiltração e exibir o resultado
-function calcularInfiltracao(event) {
-    var taxaInfiltracao = parseFloat(document.getElementById("TaxaInfiltração").value);
-    var inputExtensao = event.target;
-    var linha = inputExtensao.closest('tr');
-    var inputInfiltracao = linha.querySelector('input[id^="Infiltração"]');
-
-    if (inputExtensao && inputInfiltracao) {
-        var valorExtensao = parseFloat(inputExtensao.value);
-        var resultadoInfiltracao = valorExtensao * taxaInfiltracao;
-        inputInfiltracao.value = resultadoInfiltracao.toFixed(2);
-    }
-}
-
-// Delegação de evento para a tabela
-document.getElementById('tabelaTrechos').addEventListener('change', function(event) {
-    if (event.target && event.target.id.startsWith('Extensão (m)') || event.target.id === 'TaxaInfiltração') {
-        calcularInfiltracao(event);
-    }
-});
-
-
-function calculaDeclividade() { 
-    var linhas = document.querySelectorAll("#tabelaTrechos tr"); 
-    linhas.forEach(function(linha, index) {
-        var extensaodecli = parseFloat(document.getElementById("Extensão (m)"+ (index + 1)).value); 
-        var cotaColMontante = parseFloat(document.getElementById("CotaColMontante"+ (index + 1)).value);
-        var cotaColJusante = parseFloat(document.getElementById("CotaColJusante"+ (index + 1)).value); 
-        var vazaoAFinal = parseFloat(document.getElementById("VazaoAFinal" + (index + 1)).value);
-        var vazaoAFinal = parseFloat(document.getElementById("VazaoAFinal" + (index + 1)).value); 
-        if (!isNaN(extensaodecli) && !isNaN(cotaColMontante) && !isNaN(cotaColJusante)) { 
-            var declCol = (cotaColMontante - cotaColJusante) / extensaodecli; 
-            document.getElementById("Decl. Col" + (index + 1)).value = declCol.toFixed(4); } 
-            
-         
-        if (!isNaN(vazaoAFinal)) { 
-            var declMin = 0.0055 * Math.pow(vazaoAFinal, -0.47); 
-            document.getElementById("Decl. Min." + (index + 1)).value = declMin.toFixed(4); } 
-
-
-            
-        }); 
-
-
-
-        
     }
 
-function calculaProfundidade() { 
-    var linhas = document.querySelectorAll("#tabelaTrechos tr"); 
-    linhas.forEach(function(linha, index) { 
-        var cotaTerMontante = parseFloat(document.getElementById("CotaTerMontante" + (index + 1)).value); 
-        var cotaColMontante = parseFloat(document.getElementById("CotaColMontante" + (index + 1)).value); 
-        var cotaTerJusante = parseFloat(document.getElementById("CotaTerJusante" + (index + 1)).value); 
-        var cotaColJusante = parseFloat(document.getElementById("CotaColJusante" + (index + 1)).value); 
+    // Delegação de evento para a tabela
+    document.getElementById('tabelaTrechos').addEventListener('change', function (event) {
+        if (event.target && event.target.id.startsWith('Extensão (m)') || event.target.id === 'TaxaInfiltração') {
+            calcularInfiltracao(event);
+        }
+    });
+
+
+    function calculaDeclividade() {
+        var linhas = document.querySelectorAll("#tabelaTrechos tr");
+        linhas.forEach(function (linha, index) {
+            var extensaodecli = parseFloat(document.getElementById("Extensão (m)" + (index + 1)).value);
+            var cotaColMontante = parseFloat(document.getElementById("CotaColMontante" + (index + 1)).value);
+            var cotaColJusante = parseFloat(document.getElementById("CotaColJusante" + (index + 1)).value);
+            var vazaoAFinal = parseFloat(document.getElementById("VazaoAFinal" + (index + 1)).value);
+            var vazaoAFinal = parseFloat(document.getElementById("VazaoAFinal" + (index + 1)).value);
+            if (!isNaN(extensaodecli) && !isNaN(cotaColMontante) && !isNaN(cotaColJusante)) {
+                var declCol = (cotaColMontante - cotaColJusante) / extensaodecli;
+                document.getElementById("Decl. Col" + (index + 1)).value = declCol.toFixed(4);
+            }
+
+
+            if (!isNaN(vazaoAFinal)) {
+                var declMin = 0.0055 * Math.pow(vazaoAFinal, -0.47);
+                document.getElementById("Decl. Min." + (index + 1)).value = declMin.toFixed(4);
+            }
+
+
+
+        });
+
+
+
+
+    }
+
+    function calculaProfundidade() {
+        var linhas = document.querySelectorAll("#tabelaTrechos tr");
+        linhas.forEach(function (linha, index) {
+            var cotaTerMontante = parseFloat(document.getElementById("CotaTerMontante" + (index + 1)).value);
+            var cotaColMontante = parseFloat(document.getElementById("CotaColMontante" + (index + 1)).value);
+            var cotaTerJusante = parseFloat(document.getElementById("CotaTerJusante" + (index + 1)).value);
+            var cotaColJusante = parseFloat(document.getElementById("CotaColJusante" + (index + 1)).value);
+
+            if (!isNaN(cotaTerMontante) && !isNaN(cotaColMontante)) {
+                var profColMontante = cotaTerMontante - cotaColMontante;
+                document.getElementById("ProfColMontante" + (index + 1)).value = profColMontante.toFixed(3);
+            }
+
+            if (!isNaN(cotaTerJusante) && !isNaN(cotaColJusante)) {
+                var profColJusante = cotaTerJusante - cotaColJusante;
+                document.getElementById("ProfColJusante" + (index + 1)).value = profColJusante.toFixed(3);
+            }
+
+        });
+
+    }
+
+    function calculaDiametros() {
+        console.log("calculaDiametros called");
+        var linhas = document.querySelectorAll("#tabelaTrechos tr");
+        linhas.forEach(function (linhas, index) {
+            var vazaoAFinal = parseFloat(document.getElementById("VazaoAFinal" + (index + 1)).value);
+            var declCol = parseFloat(document.getElementById("Decl. Col" + (index + 1)).value);
+
+            console.log("VazaoAFinal" + (index + 1) + ": " + vazaoAFinal);
+            console.log("Decl. Col" + (index + 1) + ": " + declCol);
+
+            if (!isNaN(vazaoAFinal) && !isNaN(declCol)) {
+                var diamCal = Math.pow(0.3145 * (vazaoAFinal  / 1000 * Math.sqrt(declCol)), 3 / 8) * 1000 ;
+                document.getElementById("Diam. Cal." + (index + 1)).value = diamCal.toFixed(4);
+                var diamA = diamCal > 150 ? diamCal : 150;
+                document.getElementById("Diam. A" + (index + 1)).value = diamA.toFixed(4);
+
+            }
+        })
+    }
+
+
+    function calculaQQp(){
+        var linhas = document.querySelectorAll("#tabelaTrechos tr");
+        linhas.forEach(function (linhas, index){
+            var vazaoAdotadaInicial = parseFloat(document.getElementById("VazaoAInicial" + (index + 1)).value);
+            var diametroAdotado = parseFloat(document.getElementById("Diam. A" + (index + 1)).value);
+            var declividaColetor = parseFloat(document.getElementById("Decl. Col" + (index + 1)).value);
+            var vazaoAdotadaFinal = parseFloat(document.getElementById("VazaoAFinal" + (index + 1)).value);
+
+            console.log("Linha " + (index + 1) + ":");
+            console.log("VazaoAInicial: " + vazaoAdotadaInicial);
+            console.log("Diam. A: " + diametroAdotado);
+            console.log("Decl. Col: " + declividaColetor);
+            console.log("VazaoAFinal: " + vazaoAdotadaFinal);
+
+            if (!isNaN(vazaoAdotadaInicial) && !isNaN(diametroAdotado) && !isNaN(declividaColetor)) {
+                var qqpi = (vazaoAdotadaInicial / (24 * (Math.pow(diametroAdotado, 8/3) * Math.sqrt(declividaColetor)))).toFixed(8);
+                document.getElementById("Q/Qpi" + (index + 1)).value = qqpi;
+                console.log("Q/Qpi: " + qqpi);
+            }
+
+            if (!isNaN(vazaoAdotadaFinal) && !isNaN(diametroAdotado) && !isNaN(declividaColetor)) {
+                var qqpf = (vazaoAdotadaFinal / (24 * (Math.pow(diametroAdotado, 8/3) * Math.sqrt(declividaColetor)))).toFixed(8);
+                document.getElementById("Q/Qpf" + (index + 1)).value = qqpf;
+                console.log("Q/Qpf: " + qqpf);
+            }
+        });
+    }
+
         
-        if (!isNaN(cotaTerMontante) && !isNaN(cotaColMontante)) { 
-            var profColMontante = cotaTerMontante - cotaColMontante; 
-            document.getElementById("ProfColMontante" + (index + 1)).value = profColMontante.toFixed(3); 
-        } 
-        
-        if (!isNaN(cotaTerJusante) && !isNaN(cotaColJusante)) { 
-            var profColJusante = cotaTerJusante - cotaColJusante; 
-            document.getElementById("ProfColJusante" + (index + 1)).value = profColJusante.toFixed(3); 
-        } 
+    function calculaYd(){
+        const tabelaYd ={
+            0.00015:	0.01,
+0.00067:	0.02,
+0.00161:	0.03,
+0.00298:	0.04,
+0.00480:	0.05,
+0.00708:	0.06,
+0.00983:	0.07,
+0.01304:	0.08,
+0.01672:	0.09,
+0.02088:	0.10,
+0.02550:	0.11,
+0.03058:	0.12,
+0.03613:	0.13,
+0.04214:	0.14,
+0.04861:	0.15,
+0.05552:	0.16,
+0.06288:	0.17,
+0.07068:	0.18,
+0.07891:	0.19,
+0.08757:	0.20,
+0.09664:	0.21,
+0.10613:	0.22,
+0.11602:	0.23,
+0.12631:	0.24,
+0.13698:	0.25,
+0.14803:	0.26,
+0.15945:	0.27,
+0.17123:	0.28,
+0.18336:	0.29,
+0.19583:	0.30,
+0.20863:	0.31,
+0.22175:	0.32,
+0.23518:	0.33,
+0.24892:	0.34,
+0.26294:	0.35,
+0.27724:	0.36,
+0.29180:	0.37,
+0.30662:	0.38,
+0.32169:	0.39,
+0.33699:	0.40,
+0.35250:	0.41,
+0.36823:	0.42,
+0.38415:	0.43,
+0.40025:	0.44,
+0.41653:	0.45,
+0.43296:	0.46,
+0.44954:	0.47,
+0.46624:	0.48,
+0.48307:	0.49,
+0.50000:	0.50,
+0.51702:	0.51,
+0.53411:	0.52,
+0.55127:	0.53,
+0.56847:	0.54,
+0.58571:	0.55,
+0.60296:	0.56,
+0.62022:	0.57,
+0.63746:	0.58,
+0.65467:	0.59,
+0.67184:	0.60,
+0.68895:	0.61,
+0.70597:	0.62,
+0.72290:	0.63,
+0.73972:	0.64,
+0.75641:	0.65,
+0.77295:	0.66,
+0.78932:	0.67,
+0.80551:	0.68,
+0.82149:	0.69,
+0.83724:	0.70,
+0.85275:	0.71,
+0.86799:	0.72,
+0.88294:	0.73,
+0.89758:	0.74,
+0.91188:	0.75,
+0.92582:	0.76,
+0.93938:	0.77,
+0.95253:	0.78,
+0.96523:	0.79,
+0.97470:	0.80,
+0.98921:	0.81,
+1.00041:	0.82,
+1.01104:	0.83,
+1.02107:	0.84,
+1.03044:	0.85,
+1.03913:	0.86,
+1.04706:	0.87,
+1.05420:	0.88,
+1.06047:	0.89,
+1.06580:	0.90,
+1.07011:	0.91,
+1.07328:	0.92,
+1.07520:	0.93,
+1.07568:	0.94,
+1.07452:	0.95,
+1.07138:	0.96,
+1.06575:	0.97,
+1.05669:	0.98,
+1.04196:	0.99,
+1.00000:	1.00
+};
+var qqp
+    return tabelaYd[qqp] || null;
+    }
+
     
-    }); 
 
-}
 
-function calculaDiametros() { 
-    console.log("calculaDiametros called");
-    var linhas = document.querySelectorAll("#tabelaTrechos tr"); 
-    linhas.forEach(function(linhas, index) { 
-        var vazaoAFinal = parseFloat(document.getElementById("VazaoAFinal" + (index + 1)).value); 
-        var declCol = parseFloat(document.getElementById("Decl. Col" + (index + 1)).value); 
-        
-        console.log("VazaoAFinal" + (index + 1) + ": " + vazaoAFinal);
-        console.log("Decl. Col" + (index + 1) + ": " + declCol);
-        
-        if (!isNaN(vazaoAFinal) && !isNaN(declCol)) {
-            var diamCal = Math.pow(0.043 * (vazaoAFinal/Math.sqrt(declCol)), 3/8);
-            document.getElementById("Diam. Cal." + (index + 1)).value = diamCal.toFixed(4); 
-            var diamA = diamCal > 150 ? diamCal : 150; 
-            document.getElementById("Diam. A" + (index + 1)).value = diamA.toFixed(4); 
-        
+
+
+    function extensaoFuncoes() {
+        calculaContribuicaoTrecho();
+        calculaDeclividade();
+        calcularInfiltracao();
+    }
+
+    function vazaoAFinalFuncoes() {
+        calculaDeclividade();
+        calculaDiametros();
+        calculaQQpf();
+    }
+
+    function vazaoAInicialFuncoes() {
+        calculaVelocidadeInicial();
+        calculaQQpi();
+    }
+    function cotaColFuncoes() {
+        calculaDeclividade();
+        calculaProfundidade();
+    }
+    function declivColFuncoes() {
+        calculaDiametros();
+        calculaQQpi();
+        calculaQQpf();
+    }
+    function diamAFuncoes() {
+        calculaQQpf();
+        calculaQQpi();
+        calculaVelocidadeInicial();
+    }
+
+
+
+    
+    function lerCSV(event) {
+    var input = event.target;
+    var reader = new FileReader();
+    reader.onload = function () {
+        var data = reader.result;
+        var linhas = data.split('\n');
+        var tabela = document.getElementById('tabelaTrechos').getElementsByTagName('tbody')[0];
+        tabela.innerHTML = ''; // Limpa a tabela antes de adicionar novos dados
+        for (var i = 1; i < linhas.length; i++) { // Começa de 1 para pular o cabeçalho
+            console.log("Passou aqui");
+            var cols = linhas[i].split(';'); // Usando ';' como separador
+            
+            if (cols.length === 12) { // Verifica se há exatamente 12 colunas
+                console.log("Passou aqui 2");
+                novaLinha = tabela.insertRow(); // Insere uma nova linha na tabela
+                console.log("Passou aqui 3");
+                for (var j = 0; j < cols.length; j++) {
+                    console.log("Passou aqui 4");
+                    var input = novaLinha.cells[j].querySelector('input');
+                    if (input) {
+                        input.value = cols[j].trim(); // Preenche o input com o valor da coluna
+                    }
+                }
+            } else {
+                console.log('Linha', i, 'não possui 12 colunas:', cols); // Log para verificar se a linha não possui 12 colunas
+            }
         }
-    }) 
+    };
+    reader.readAsText(input.files[0]);
 }
-
-
-function extensaoFuncoes(){
-    calculaContribuicaoTrecho();
-    calculaDeclividade();
-    calcularInfiltracao();
-}
-
-function vazaoAFinalFuncoes(){
-    calculaDeclividade();
-    calculaDiametros();
-    calculaQQpf();
-}
-
-function vazaoAInicialFuncoes(){
-    calculaVelocidadeInicial();
-    calculaQQpi();
-}
-function cotaColFuncoes(){
-    calculaDeclividade();
-    calculaProfundidade();
-}
-function declivColFuncoes(){
-    calculaDiametros();
-    calculaQQpi();
-    calculaQQpf();
-}
-function diamAFuncoes(){
-    calculaQQpf();
-    calculaQQpi();
-    calculaVelocidadeInicial();
-}
+    
 
 
 
-            // function lerCSV(event) {
-            //     var input = event.target;
-            //     var reader = new FileReader();
-            //     reader.onload = function () {
-            //         var data = reader.result;
-            //         console.log('Dados lidos do arquivo:', data); // Log para verificar os dados lidos
-            //         var linhas = data.split('\n');
-            //         console.log('Linhas do arquivo:', linhas); // Log para verificar as linhas
-            //         var tabela = document.getElementById('tabelaTrechos').getElementsByTagName('tbody')[0];
-            //         tabela.innerHTML = ''; // Limpa a tabela antes de adicionar novos dados
-            //         for (var i = 1; i < linhas.length; i++) { // Começa de 1 para pular o cabeçalho
-            //             var cols = linhas[i].split(',');
-            //             console.log('Colunas da linha', i, ':', cols); // Log para verificar as colunas
-            //             if (cols.length >= 4) { // Verifica se há pelo menos 4 colunas
-            //                 var novaLinha = tabela.insertRow();
-            //                 for (var j = 0; j < 4; j++) {
-            //                     var novaCelula = novaLinha.insertCell();
-            //                     var input = document.createElement('input');
-            //                     input.type = (j === 0) ? 'text' : 'number';
-            //                     input.value = cols[j].trim(); // Remover espaços em branco
-            //                     input.id = (j === 0 ? 'trecho' : j === 1 ? 'extensao' : j === 2 ? 'cotaMontante' : 'cotaJusante') + i;
-            //                     if (j === 3) {
-            //                         console.log('Cota de Jusante da linha', i, ':', cols[j]); // Log para verificar a Cota de Jusante
-            //                     }
-            //                     if (j !== 0) {
-            //                         input.oninput = (function (i) { return function () { calcularDeclividade(i); }; })(i);
-            //                     }
-            //                     novaCelula.appendChild(input);
-            //                 }
-            //                 var novaCelulaDeclividade = novaLinha.insertCell();
-            //                 var inputDeclividade = document.createElement('input');
-            //                 inputDeclividade.type = 'text';
-            //                 inputDeclividade.disabled = true;
-            //                 inputDeclividade.id = 'declividade' + i;
-            //                 novaCelulaDeclividade.appendChild(inputDeclividade);
-            //                 calcularDeclividade(i);
-            //             } else {
-            //                 console.log('Linha', i, 'não possui 4 colunas:', cols); // Log para verificar se a linha não possui 4 colunas
-            //             }
-            //         }
-            //     };
-            //     reader.readAsText(input.files[0]);
-            // }
+    // function salvarComoXLSX() {
+    //     var tabela = document.getElementById('tabelaTrechos').getElementsByTagName('tbody')[0];
+    //     var dados = [];
+    //     var linhas = tabela.getElementsByTagName('tr');
 
+    //     dados.push(["Trecho", "Extensão", "Cota de Montante", "Cota de Jusante", "Declividade"]);
+    //     for (var i = 0; i < linhas.length; i++) {
+    //         var colunas = linhas[i].getElementsByTagName('input');
+    //         var linha = [];
+    //         for (var j = 0; j < colunas.length; j++) {
+    //             linha.push(colunas[j].value);
+    //         }
+    //         dados.push(linha);
+    //     }
 
+    //     var ws = XLSX.utils.aoa_to_sheet(dados);
+    //     var wb = XLSX.utils.book_new();
+    //     XLSX.utils.book_append_sheet(wb, ws, "Trechos");
+    //     XLSX.writeFile(wb, "dados.xlsx");
+    // }
 
+    function removeLastRow() {
+        var table = document.getElementById("tabelaTrechos");
+        var rowCount = table.rows.length;
 
+        if (rowCount > 2) { // Mantém ao menos o cabeçalho e uma linha de dados
+            table.deleteRow(rowCount - 1);
+        }
+    }
 
-            // function salvarComoXLSX() {
-            //     var tabela = document.getElementById('tabelaTrechos').getElementsByTagName('tbody')[0];
-            //     var dados = [];
-            //     var linhas = tabela.getElementsByTagName('tr');
-
-            //     dados.push(["Trecho", "Extensão", "Cota de Montante", "Cota de Jusante", "Declividade"]);
-            //     for (var i = 0; i < linhas.length; i++) {
-            //         var colunas = linhas[i].getElementsByTagName('input');
-            //         var linha = [];
-            //         for (var j = 0; j < colunas.length; j++) {
-            //             linha.push(colunas[j].value);
-            //         }
-            //         dados.push(linha);
-            //     }
-
-            //     var ws = XLSX.utils.aoa_to_sheet(dados);
-            //     var wb = XLSX.utils.book_new();
-            //     XLSX.utils.book_append_sheet(wb, ws, "Trechos");
-            //     XLSX.writeFile(wb, "dados.xlsx");
-            // }
-
-            function removeLastRow() {
-                var table = document.getElementById("tabelaTrechos");
-                var rowCount = table.rows.length;
-
-                if (rowCount > 2) { // Mantém ao menos o cabeçalho e uma linha de dados
-                    table.deleteRow(rowCount - 1);
+    function moveFocus(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            const currentInput = event.target;
+            const currentCell = currentInput.parentElement;
+            const currentRow = currentCell.parentElement;
+            if (currentInput.nextElementSibling && currentInput.nextElementSibling.tagName === "INPUT") {
+                currentInput.nextElementSibling.focus();
+            } else {
+                const nextCell = currentCell.nextElementSibling;
+                if (nextCell) {
+                    const nextInput = nextCell.querySelector("input");
+                    if (nextInput) { nextInput.focus(); }
+                } else {
+                    const nextRow = currentRow.nextElementSibling;
+                    if (nextRow) {
+                        const firstCellNextRow = nextRow.cells[0];
+                        const firstInputNextRow = firstCellNextRow.querySelector("input");
+                        if (firstInputNextRow) {
+                            firstInputNextRow.focus();
+                        }
+                    }
                 }
             }
-
-            function moveFocus(event) { 
-                if (event.key === "Enter") { 
-                    event.preventDefault(); 
-                    const currentInput = event.target; 
-                    const currentCell = currentInput.parentElement; 
-                    const currentRow = currentCell.parentElement;
-                    if (currentInput.nextElementSibling && currentInput.nextElementSibling.tagName === "INPUT") {
-                    currentInput.nextElementSibling.focus();
-                    }else{
-                        const nextCell = currentCell.nextElementSibling; 
-                        if (nextCell) { 
-                        const nextInput = nextCell.querySelector("input"); 
-                        if (nextInput) { nextInput.focus(); } } else { 
-                            const nextRow = currentRow.nextElementSibling; 
-                            if (nextRow) { 
-                                const firstCellNextRow = nextRow.cells[0]; 
-                                const firstInputNextRow = firstCellNextRow.querySelector("input"); 
-                                if (firstInputNextRow) { 
-                                    firstInputNextRow.focus(); } 
-                                } 
-                            } 
-                        } 
-                    }
-            }
-            
-            
-
-            //Adicionar event listeners aos inputs para calcular automaticamente 
-            document.getElementById("ConsCapta").addEventListener("input", calcularContribuicao); 
-                document.getElementById("OcupDomus").addEventListener("input", calcularContribuicao); 
-                document.getElementById("K1").addEventListener("input", calcularContribuicao); 
-                document.getElementById("K2").addEventListener("input", calcularContribuicao); 
-                document.getElementById("Unidades").addEventListener("input", calcularContribuicao); 
-                document.getElementById("CoefRetorno").addEventListener("input", calcularContribuicao); 
-                document.getElementById("ExtensaoTotal").addEventListener("input", calcularContribuicao);
-                document.getElementById("TaxaInfiltracao").addEventListener("input", calcularInfiltracao);
-                
-        </script>
+        }
+    }
 
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
-            crossorigin="anonymous"></script>
-    </body>
+
+    //Adicionar event listeners aos inputs para calcular automaticamente 
+    document.getElementById("ConsCapta").addEventListener("input", calcularContribuicao);
+    document.getElementById("OcupDomus").addEventListener("input", calcularContribuicao);
+    document.getElementById("K1").addEventListener("input", calcularContribuicao);
+    document.getElementById("K2").addEventListener("input", calcularContribuicao);
+    document.getElementById("Unidades").addEventListener("input", calcularContribuicao);
+    document.getElementById("CoefRetorno").addEventListener("input", calcularContribuicao);
+    document.getElementById("ExtensaoTotal").addEventListener("input", calcularContribuicao);
+    document.getElementById("TaxaInfiltracao").addEventListener("input", calcularInfiltracao);
+    document.getElementById("PopInicial").addEventListener("input", calcularContribuicao);
+
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+    crossorigin="anonymous"></script>
+</body>
 </div>
 
 </html>
